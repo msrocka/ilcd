@@ -1,20 +1,22 @@
 package ilcd
 
-type LangStrings []LangString
+// LangString is an ILCD multi-language string
+type LangString []LangStringItem
 
-// LangString represents an ILCD multi-language string
-type LangString struct {
+// LangStringItem represents an item in an ILCD multi-language string
+type LangStringItem struct {
 	Value string `xml:",chardata"`
 	Lang  string `xml:"lang,attr"`
 }
 
-func (list LangStrings) GetValue(lang string) string {
-	if list == nil {
+// Get returns the value for the given language code
+func (ls LangString) Get(lang string) string {
+	if ls == nil {
 		return ""
 	}
-	for _, ls := range list {
-		if ls.Lang == lang {
-			return ls.Value
+	for _, item := range ls {
+		if item.Lang == lang {
+			return item.Value
 		}
 	}
 	return ""

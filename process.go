@@ -15,15 +15,15 @@ type Process struct {
 type ProcessInfo struct {
 	UUID     string       `xml:"baseName"`
 	Name     *ProcessName `xml:"name"`
-	Synonyms []LangString `xml:"synonyms"`
+	Synonyms LangString   `xml:"synonyms"`
 }
 
 // ProcessName contains the name fields of a process.
 type ProcessName struct {
-	BaseName       LangStrings  `xml:"baseName"`
-	Treatment      []LangString `xml:"treatmentStandardsRoutes"`
-	MixAndLocation []LangString `xml:"mixAndLocationTypes"`
-	Properties     []LangString `xml:"functionalUnitFlowProperties"`
+	BaseName       LangString `xml:"baseName"`
+	Treatment      LangString `xml:"treatmentStandardsRoutes"`
+	MixAndLocation LangString `xml:"mixAndLocationTypes"`
+	Properties     LangString `xml:"functionalUnitFlowProperties"`
 }
 
 // Exchange is an input or output of an ILCD process data set.
