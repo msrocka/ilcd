@@ -4,7 +4,7 @@ import "testing"
 
 func TestProcessInfo(t *testing.T) {
 	p, _ := ReadProcessFile("sample_data/process.xml")
-	if p.Info.Classification[1].Classes[1].Name != "class3" {
+	if p.Info.Classifications[1].Classes[1].Name != "class3" {
 		t.Fatal("Could not get expected class name")
 	}
 	if p.Info.UUID != "00000000-0000-0000-0000-000000000000" {

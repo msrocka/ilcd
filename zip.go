@@ -37,6 +37,20 @@ func (r *ZipReader) GetProcess(uuid string) *Process {
 	return p
 }
 
+// GetFlow returns the flow with the given UUID from the zip.
+func (r *ZipReader) GetFlow(uuid string) *Flow {
+	file := r.findXML("flows", uuid)
+	if file == nil {
+		return nil
+	}
+	f := &Flow{}
+	err := unmarshal(file, f)
+	if err != nil {
+		return nil
+	}
+	return f
+}
+
 func (r *ZipReader) findXML(path, uuid string) *zip.File {
 	for _, f := range r.r.File {
 		name := f.Name

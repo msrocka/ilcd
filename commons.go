@@ -24,17 +24,30 @@ func (ls LangString) Get(lang string) string {
 
 // Ref is a data set reference to an ILCD data set.
 type Ref struct {
-	UUID    string `xml:"refObjectId,attr"`
-	Type    string `xml:"type,attr"`
-	URI     string `xml:"uri,attr"`
-	Version string `xml:"version,attr"`
-	Name    string `xml:"shortDescription"`
+	UUID    string     `xml:"refObjectId,attr"`
+	Type    string     `xml:"type,attr"`
+	URI     string     `xml:"uri,attr"`
+	Version string     `xml:"version,attr"`
+	Name    LangString `xml:"shortDescription"`
 }
 
 // Classification describes an ILCD classification entry in a data set
 type Classification struct {
 	Name    string  `xml:"name,attr"`
 	Classes []Class `xml:"class"`
+}
+
+// GetClass returns the class with the given level from the classification.
+func (c *Classification) GetClass(level int) *Class {
+	if c == nil || c.Classes == nil {
+		return nil
+	}
+	for i, class := range c.Classes {
+		if class.Level == level {
+			return &c.Classes[i]
+		}
+	}
+	return nil
 }
 
 // Class is a category in an ILCD data set classification.

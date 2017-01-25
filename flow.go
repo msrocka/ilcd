@@ -10,6 +10,7 @@ type Flow struct {
 	Info                    *FlowInfo         `xml:"flowInformation>dataSetInformation"`
 	ReferenceFlowPropertyID int               `xml:"flowInformation>quantitativeReference>referenceToReferenceFlowProperty"`
 	Type                    string            `xml:"modellingAndValidation>LCIMethod>typeOfDataSet"`
+	Publication             *FlowPublication  `xml:"administrativeInformation>publicationAndOwnership"`
 	FlowProperties          []FlowPropertyRef `xml:"flowProperties>flowProperty"`
 }
 
@@ -29,11 +30,12 @@ func (f *Flow) ReferenceFlowProperty() *FlowPropertyRef {
 
 // FlowInfo contains the general flow information
 type FlowInfo struct {
-	UUID           string           `xml:"UUID"`
-	Name           *FlowName        `xml:"name"`
-	Synonyms       LangString       `xml:"synonyms"`
-	Classification []Classification `xml:"classificationInformation>classification"`
-	Comment        LangString       `xml:"generalComment"`
+	UUID            string           `xml:"UUID"`
+	Name            *FlowName        `xml:"name"`
+	Synonyms        LangString       `xml:"synonyms"`
+	Classifications []Classification `xml:"classificationInformation>classification"`
+	CAS             string           `xml:"CASNumber"`
+	Comment         LangString       `xml:"generalComment"`
 }
 
 // FlowName contains the name fields of a flow.
@@ -42,6 +44,12 @@ type FlowName struct {
 	Treatment      LangString `xml:"treatmentStandardsRoutes"`
 	MixAndLocation LangString `xml:"mixAndLocationTypes"`
 	Properties     LangString `xml:"flowProperties"`
+}
+
+// FlowPublication contains the information about publication and ownership of a
+// flow.
+type FlowPublication struct {
+	Version string `xml:"dataSetVersion"`
 }
 
 // FlowPropertyRef describes a flow property of a flow.

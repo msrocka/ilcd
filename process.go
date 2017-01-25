@@ -14,11 +14,11 @@ type Process struct {
 
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
-	UUID           string           `xml:"UUID"`
-	Name           *ProcessName     `xml:"name"`
-	Synonyms       LangString       `xml:"synonyms"`
-	Classification []Classification `xml:"classificationInformation>classification"`
-	Comment        LangString       `xml:"generalComment"`
+	UUID            string           `xml:"UUID"`
+	Name            *ProcessName     `xml:"name"`
+	Synonyms        LangString       `xml:"synonyms"`
+	Classifications []Classification `xml:"classificationInformation>classification"`
+	Comment         LangString       `xml:"generalComment"`
 }
 
 // ProcessName contains the name fields of a process.
