@@ -6,16 +6,19 @@ import (
 
 // Process represents an ILCD process data set
 type Process struct {
-	XMLName   xml.Name     `xml:"processDataSet"`
-	Info      *ProcessInfo `xml:"processInformation>dataSetInformation"`
-	Exchanges []Exchange   `xml:"exchanges>exchange"`
+	XMLName   xml.Name         `xml:"processDataSet"`
+	Info      *ProcessInfo     `xml:"processInformation>dataSetInformation"`
+	Location  *ProcessLocation `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
+	Exchanges []Exchange       `xml:"exchanges>exchange"`
 }
 
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
-	UUID     string       `xml:"baseName"`
-	Name     *ProcessName `xml:"name"`
-	Synonyms LangString   `xml:"synonyms"`
+	UUID           string           `xml:"UUID"`
+	Name           *ProcessName     `xml:"name"`
+	Synonyms       LangString       `xml:"synonyms"`
+	Classification []Classification `xml:"classificationInformation>classification"`
+	Comment        LangString       `xml:"generalComment"`
 }
 
 // ProcessName contains the name fields of a process.
@@ -24,6 +27,13 @@ type ProcessName struct {
 	Treatment      LangString `xml:"treatmentStandardsRoutes"`
 	MixAndLocation LangString `xml:"mixAndLocationTypes"`
 	Properties     LangString `xml:"functionalUnitFlowProperties"`
+}
+
+// ProcessLocation contains the information of a process location.
+type ProcessLocation struct {
+	Code        string     `xml:"location,attr"`
+	LatLong     string     `xml:"latitudeAndLongitude,attr"`
+	Description LangString `xml:"descriptionOfRestrictions"`
 }
 
 // Exchange is an input or output of an ILCD process data set.

@@ -30,3 +30,16 @@ type Ref struct {
 	Version string `xml:"version,attr"`
 	Name    string `xml:"shortDescription"`
 }
+
+// Classification describes an ILCD classification entry in a data set
+type Classification struct {
+	Name    string  `xml:"name,attr"`
+	Classes []Class `xml:"class"`
+}
+
+// Class is a category in an ILCD data set classification.
+type Class struct {
+	Level int    `xml:"level,attr"`
+	ID    string `xml:"classId1,attr"`
+	Name  string `xml:",chardata"`
+}

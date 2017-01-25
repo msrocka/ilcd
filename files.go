@@ -15,3 +15,14 @@ func ReadProcessFile(path string) (*Process, error) {
 	err = xml.Unmarshal(data, process)
 	return process, err
 }
+
+// ReadFlowFile reads a flow data set from the given file.
+func ReadFlowFile(path string) (*Flow, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	flow := &Flow{}
+	err = xml.Unmarshal(data, flow)
+	return flow, err
+}

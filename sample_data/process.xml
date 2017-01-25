@@ -33,18 +33,14 @@
 				<referenceToComplementingProcess
 					type="process data set" refObjectId="00000000-0000-0000-0000-000000000000"
 					version="00.00" uri="">
-					<common:shortDescription xml:lang="en">shortDescription80
-					</common:shortDescription>
-					<common:shortDescription xml:lang="de">shortDescription81
-					</common:shortDescription>
+					<common:shortDescription xml:lang="en">shortDescription80</common:shortDescription>
+					<common:shortDescription xml:lang="de">shortDescription81</common:shortDescription>
 				</referenceToComplementingProcess>
 			</complementingProcesses>
 			<classificationInformation>
 				<common:classification name="ILCD">
-					<common:class level="0" classId="classId1">Other Services
-					</common:class>
-					<common:class level="1" classId="classId3">Other services
-					</common:class>
+					<common:class level="0" classId="classId1">Other Services</common:class>
+					<common:class level="1" classId="classId3">Other services</common:class>
 				</common:classification>
 				<common:classification name="Custom"
 					classes="../Example_Custom_Classification.xml">
@@ -52,10 +48,8 @@
 					<common:class level="1" classId="classId7">class3</common:class>
 				</common:classification>
 			</classificationInformation>
-			<common:generalComment xml:lang="en">generalComment0
-			</common:generalComment>
-			<common:generalComment xml:lang="de">generalComment1
-			</common:generalComment>
+			<common:generalComment xml:lang="en">generalComment0</common:generalComment>
+			<common:generalComment xml:lang="de">generalComment1</common:generalComment>
 			<referenceToExternalDocumentation
 				type="source data set" refObjectId="00000000-0000-0000-0000-000000000000"
 				version="00.00" uri="">
