@@ -24,31 +24,64 @@ func (r *ZipReader) Close() error {
 }
 
 // GetProcess returns the process with the given UUID from the zip.
-func (r *ZipReader) GetProcess(uuid string) *Process {
+func (r *ZipReader) GetProcess(uuid string) (*Process, error) {
 	file := r.findXML("processes", uuid)
 	if file == nil {
-		return nil
+		return nil, ErrDataSetNotFound
 	}
 	p := &Process{}
 	err := unmarshal(file, p)
-	if err != nil {
-		return nil
-	}
-	return p
+	return p, err
+}
+
+// GetProcessData returns the process data set with the given UUID as byte array.
+func (r *ZipReader) GetProcessData(uuid string) ([]byte, error) {
+	return r.xmlData("processes", uuid)
 }
 
 // GetFlow returns the flow with the given UUID from the zip.
-func (r *ZipReader) GetFlow(uuid string) *Flow {
+func (r *ZipReader) GetFlow(uuid string) (*Flow, error) {
 	file := r.findXML("flows", uuid)
 	if file == nil {
-		return nil
+		return nil, ErrDataSetNotFound
 	}
 	f := &Flow{}
 	err := unmarshal(file, f)
-	if err != nil {
-		return nil
+	return f, err
+}
+
+// GetFlowData returns the flow data set with the given UUID as byte array.
+func (r *ZipReader) GetFlowData(uuid string) ([]byte, error) {
+	return r.xmlData("flows", uuid)
+}
+
+// GetFlowPropertyData returns the flow property data set with the given UUID
+// as byte array.
+func (r *ZipReader) GetFlowPropertyData(uuid string) ([]byte, error) {
+	return r.xmlData("flowproperties", uuid)
+}
+
+// GetUnitGroupData returns the unit group data set with the given UUID as byte array.
+func (r *ZipReader) GetUnitGroupData(uuid string) ([]byte, error) {
+	return r.xmlData("unitgroups", uuid)
+}
+
+// GetSource returns the source data set with the given UUID as byte array.
+func (r *ZipReader) GetSource(uuid string) ([]byte, error) {
+	return r.xmlData("sources", uuid)
+}
+
+// GetContact returns the contact data set with the given UUID as byte array.
+func (r *ZipReader) GetContact(uuid string) ([]byte, error) {
+	return r.xmlData("contacts", uuid)
+}
+
+func (r *ZipReader) xmlData(path, uuid string) ([]byte, error) {
+	file := r.findXML(path, uuid)
+	if file == nil {
+		return nil, ErrDataSetNotFound
 	}
-	return f
+	return readData(file)
 }
 
 func (r *ZipReader) findXML(path, uuid string) *zip.File {
@@ -68,16 +101,20 @@ func (r *ZipReader) findXML(path, uuid string) *zip.File {
 }
 
 func unmarshal(file *zip.File, ds interface{}) error {
-	reader, err := file.Open()
-	if err != nil {
-		return err
-	}
-	data, err := ioutil.ReadAll(reader)
+	data, err := readData(file)
 	if err != nil {
 		return err
 	}
 	err = xml.Unmarshal(data, ds)
 	return err
+}
+
+func readData(file *zip.File) ([]byte, error) {
+	reader, err := file.Open()
+	if err != nil {
+		return nil, err
+	}
+	return ioutil.ReadAll(reader)
 }
 
 // EachProcess iterates over each process data set in the ILCD package and calls
