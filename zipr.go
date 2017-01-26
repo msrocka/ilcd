@@ -55,6 +55,17 @@ func (r *ZipReader) GetFlowData(uuid string) ([]byte, error) {
 	return r.xmlData("flows", uuid)
 }
 
+// GetFlowProperty returns the flow property with the given UUID from the zip.
+func (r *ZipReader) GetFlowProperty(uuid string) (*FlowProperty, error) {
+	file := r.findXML("flowproperties", uuid)
+	if file == nil {
+		return nil, ErrDataSetNotFound
+	}
+	fp := &FlowProperty{}
+	err := unmarshal(file, fp)
+	return fp, err
+}
+
 // GetFlowPropertyData returns the flow property data set with the given UUID
 // as byte array.
 func (r *ZipReader) GetFlowPropertyData(uuid string) ([]byte, error) {

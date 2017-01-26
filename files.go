@@ -26,3 +26,14 @@ func ReadFlowFile(path string) (*Flow, error) {
 	err = xml.Unmarshal(data, flow)
 	return flow, err
 }
+
+// ReadFlowPropertyFile reads a flow property data set from the given file.
+func ReadFlowPropertyFile(path string) (*FlowProperty, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	prop := &FlowProperty{}
+	err = xml.Unmarshal(data, prop)
+	return prop, err
+}
