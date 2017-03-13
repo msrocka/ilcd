@@ -37,3 +37,14 @@ func ReadFlowPropertyFile(path string) (*FlowProperty, error) {
 	err = xml.Unmarshal(data, prop)
 	return prop, err
 }
+
+// ReadCategoryFile reads a category system from the given file.
+func ReadCategoryFile(path string) (*CategorySystem, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	system := &CategorySystem{}
+	err = xml.Unmarshal(data, system)
+	return system, err
+}
