@@ -146,3 +146,22 @@ func (r *ZipReader) EachProcess(handler func(*Process) bool) error {
 	}
 	return nil
 }
+
+// EachFlow iterates over each flow data set in the ILCD package and calls the
+// given function with the respective flow data set.
+func (r *ZipReader) EachFlow(fn func(*Flow) bool) error {
+	for _, f := range r.r.File {
+		name := f.Name
+		if strings.Contains(name, "flows/") && strings.HasSuffix(name, ".xml") {
+			flow := &Flow{}
+			err := unmarshal(f, flow)
+			if err != nil {
+				return err
+			}
+			if !fn(flow) {
+				break
+			}
+		}
+	}
+	return nil
+}
