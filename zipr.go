@@ -132,8 +132,7 @@ func readData(file *zip.File) ([]byte, error) {
 // the given handler with the respective process data set.
 func (r *ZipReader) EachProcess(handler func(*Process) bool) error {
 	for _, f := range r.r.File {
-		name := f.Name
-		if strings.Contains(name, "processes/") && strings.HasSuffix(name, ".xml") {
+		if IsProcessPath(f.Name) {
 			process := &Process{}
 			err := unmarshal(f, process)
 			if err != nil {
@@ -151,8 +150,7 @@ func (r *ZipReader) EachProcess(handler func(*Process) bool) error {
 // given function with the respective flow data set.
 func (r *ZipReader) EachFlow(fn func(*Flow) bool) error {
 	for _, f := range r.r.File {
-		name := f.Name
-		if strings.Contains(name, "flows/") && strings.HasSuffix(name, ".xml") {
+		if IsFlowPath(f.Name) {
 			flow := &Flow{}
 			err := unmarshal(f, flow)
 			if err != nil {
