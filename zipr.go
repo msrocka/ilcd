@@ -165,3 +165,19 @@ func (r *ZipReader) EachFlow(fn func(*Flow) bool) error {
 	}
 	return nil
 }
+
+// EachEntry calls the given function with the name and data of each entry in
+// the zip file.
+func (r *ZipReader) EachEntry(fn func(name string, data []byte) error) error {
+	for _, f := range r.r.File {
+		data, err := readData(f)
+		if err != nil {
+			return err
+		}
+		err = fn(f.Name, data)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

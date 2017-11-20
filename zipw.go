@@ -27,36 +27,36 @@ func (w *ZipWriter) Close() error {
 
 // PutProcessData adds the given process data set
 func (w *ZipWriter) PutProcessData(uuid string, data []byte) error {
-	return w.PutData("ILCD/processes/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/processes/"+uuid+".xml", data)
 }
 
 // PutFlowData adds the given flow data set
 func (w *ZipWriter) PutFlowData(uuid string, data []byte) error {
-	return w.PutData("ILCD/flows/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/flows/"+uuid+".xml", data)
 }
 
 // PutFlowPropertyData adds the given flow property data set
 func (w *ZipWriter) PutFlowPropertyData(uuid string, data []byte) error {
-	return w.PutData("ILCD/flowproperties/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/flowproperties/"+uuid+".xml", data)
 }
 
 // PutUnitGroupData adds the given unit group data set
 func (w *ZipWriter) PutUnitGroupData(uuid string, data []byte) error {
-	return w.PutData("ILCD/unitgroups/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/unitgroups/"+uuid+".xml", data)
 }
 
 // PutSourceData adds the given source data set
 func (w *ZipWriter) PutSourceData(uuid string, data []byte) error {
-	return w.PutData("ILCD/sources/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/sources/"+uuid+".xml", data)
 }
 
 // PutContactData adds the given contact data set
 func (w *ZipWriter) PutContactData(uuid string, data []byte) error {
-	return w.PutData("ILCD/contacts/"+uuid+".xml", data)
+	return w.WriteEntry("ILCD/contacts/"+uuid+".xml", data)
 }
 
-// PutData stores the given data under the given file name in the zip.
-func (w *ZipWriter) PutData(filePath string, data []byte) error {
+// WriteEntry writes the given data under the given file name in the zip.
+func (w *ZipWriter) WriteEntry(filePath string, data []byte) error {
 	writer, err := w.w.Create(filePath)
 	if err != nil {
 		return err
