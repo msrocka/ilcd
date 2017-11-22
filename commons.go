@@ -31,6 +31,34 @@ type Ref struct {
 	Name    LangString `xml:"shortDescription"`
 }
 
+// DataSetType returns the type of the data set referenced as defined in the ILCD
+// schema.
+func (ref *Ref) DataSetType() DataSetType {
+	if ref == nil {
+		return 0
+	}
+	switch ref.Type {
+	case "source data set":
+		return SourceType
+	case "process data set":
+		return ProcessType
+	case "flow data set":
+		return FlowType
+	case "flow property data set":
+		return FlowPropertyType
+	case "unit group data set":
+		return UnitGroupType
+	case "contact data set":
+		return ContactType
+	case "LCIA method data set":
+		return MethodType
+	case "other external file":
+		return ExternalDocType
+	default:
+		return UnknownType
+	}
+}
+
 // Classification describes an ILCD classification entry in a data set
 type Classification struct {
 	Name    string  `xml:"name,attr"`

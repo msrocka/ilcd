@@ -40,10 +40,18 @@ func ReadCategoryFile(filePath string) (*CategorySystem, error) {
 	return system, err
 }
 
+// ReadContactFile reads a contact data set from the given file
 func ReadContactFile(filePath string) (*Contact, error) {
 	c := &Contact{}
 	err := readFile(filePath, c)
 	return c, err
+}
+
+// ReadSourceFile reads a source data set from the given file
+func ReadSourceFile(filePath string) (*Source, error) {
+	s := &Source{}
+	err := readFile(filePath, s)
+	return s, err
 }
 
 func readFile(filePath string, dataSet interface{}) error {
