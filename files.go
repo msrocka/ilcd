@@ -40,6 +40,12 @@ func ReadCategoryFile(filePath string) (*CategorySystem, error) {
 	return system, err
 }
 
+func ReadContactFile(filePath string) (*Contact, error) {
+	c := &Contact{}
+	err := readFile(filePath, c)
+	return c, err
+}
+
 func readFile(filePath string, dataSet interface{}) error {
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {

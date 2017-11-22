@@ -56,3 +56,15 @@ type Class struct {
 	ID    string `xml:"classId1,attr"`
 	Name  string `xml:",chardata"`
 }
+
+// CommonDataEntry <dataEntryBy>
+type CommonDataEntry struct {
+	TimeStamp   string `xml:"timeStamp"`
+	DataFormats []Ref  `xml:"referenceToDataSetFormat"`
+}
+
+// CommonPublication <publicationAndOwnership>
+type CommonPublication struct {
+	Version string `xml:"dataSetVersion"`
+	URI     string `xml:"permanentDataSetURI"`
+}
