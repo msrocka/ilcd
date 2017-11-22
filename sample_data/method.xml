@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><?xml-stylesheet type='text/xsl' href='../../stylesheets/lciamethod2html.xsl'?>
+<LCIAMethodDataSet xmlns:common="http://lca.jrc.it/ILCD/Common" xmlns="http://lca.jrc.it/ILCD/LCIAMethod" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://lca.jrc.it/ILCD/LCIAMethod ../../schemas/ILCD_LCIAMethodDataSet.xsd">
+    <LCIAMethodInformation>
+        <dataSetInformation>
+            <common:UUID>992c8e8d-769a-4930-9b0f-4fa323250738</common:UUID>
+            <common:name xml:lang="en">ILCD2011; Eutrophication freshwater; endpoint; PDF; ReCiPe</common:name>
+            <methodology>ILCD2011</methodology>
+            <methodology>ReCiPe2008</methodology>
+            <impactCategory>Aquatic Eutrophication</impactCategory>
+            <areaOfProtection>Natural environment</areaOfProtection>
+            <impactIndicator>Potentially Disappeared Fraction of species (PDF) expressing the loss of species caused by aquatic eutrophication.</impactIndicator>
+            <common:generalComment xml:lang="en">Limited European validity. Only impact on freshwater considered.</common:generalComment>
+            <referenceToExternalDocumentation type="source data set" refObjectId="e58cd71d-881d-4b21-8331-f9880e0e53d0" uri="../sources/e58cd71d-881d-4b21-8331-f9880e0e53d0.xml">
+                <common:shortDescription xml:lang="en">Struijs et al. (2008)</common:shortDescription>
+            </referenceToExternalDocumentation>
+        </dataSetInformation>
+        <quantitativeReference>
+            <referenceQuantity type="flow property data set" refObjectId="9643f3bf-731d-4bef-9a71-b8390472171a" uri="../flowproperties/9643f3bf-731d-4bef-9a71-b8390472171a.xml">
+                <common:shortDescription xml:lang="en">Potentially Disappeared Number of freshwater species * time</common:shortDescription>
+            </referenceQuantity>
+        </quantitativeReference>
+        <time>
+            <referenceYear xml:lang="en">time independent</referenceYear>
+            <duration xml:lang="en">indefinite</duration>
+        </time>
+        <geography>
+            <interventionLocation>RER</interventionLocation>
+            <impactLocation>NL</impactLocation>
+            <geographicalRepresentativenessDescription xml:lang="en">Applicability to Europe, though only impacts on Dutch ecosystems are considered at endpoint.</geographicalRepresentativenessDescription>
+        </geography>
+        <impactModel>
+            <modelName>CARMEN model for waterborne emissions and EUTREND for airborne emissions.</modelName>
+            <modelDescription xml:lang="en">The exposure factors for water-borne emissions are calculated using the CARMEN model. Predicted P concentrations are linked to ecosystem damage using database correlating P concentrations with macro fauna species diversity in Dutch ecosystems.</modelDescription>
+            <referenceToModelSource type="source data set" refObjectId="e58cd71d-881d-4b21-8331-f9880e0e53d0" uri="../sources/e58cd71d-881d-4b21-8331-f9880e0e53d0.xml">
+                <common:shortDescription xml:lang="en">Struijs et al. (2008)</common:shortDescription>
+            </referenceToModelSource>
+            <consideredMechanisms xml:lang="en">Inclusion of important removal mechanisms for P (limiting nutrient) in the fate model.</consideredMechanisms>
+            <referenceToMethodologyFlowChart type="source data set" refObjectId="3ad3809a-3eec-4ac9-9052-66b0e679b992" uri="../sources/3ad3809a-3eec-4ac9-9052-66b0e679b992.xml">
+                <common:shortDescription xml:lang="en">Eutrophication_figure</common:shortDescription>
+            </referenceToMethodologyFlowChart>
+        </impactModel>
+    </LCIAMethodInformation>
+    <modellingAndValidation>
+        <useAdviceForDataSet xml:lang="en">Representative for Europe.</useAdviceForDataSet>
+        <LCIAMethodNormalisationAndWeighting>
+            <typeOfDataSet>Area of Protection damage indicator</typeOfDataSet>
+            <LCIAMethodPrinciple>AoP-Damage model</LCIAMethodPrinciple>
+            <deviationsFromLCIAMethodPrinciple xml:lang="en">None</deviationsFromLCIAMethodPrinciple>
+            <normalisation>false</normalisation>
+            <weighting>false</weighting>
+        </LCIAMethodNormalisationAndWeighting>
+        <dataSources>
+            <referenceToDataSource type="source data set" refObjectId="e58cd71d-881d-4b21-8331-f9880e0e53d0" uri="../sources/e58cd71d-881d-4b21-8331-f9880e0e53d0.xml">
+                <common:shortDescription xml:lang="en">Struijs et al. (2008)</common:shortDescription>
+            </referenceToDataSource>
+        </dataSources>
+        <completeness>
+            <inventoryItems>3</inventoryItems>
+        </completeness>
+        <validation>
+            <review type="Independent review panel">
+                <scope name="Model for Transport and Fate">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Model for Exposure">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Model for Effect">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Model for Damage">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Characterisation factors">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Application of model">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <scope name="Documentation">
+                    <method name="Cross-check with other LCIA method(ology)"/>
+                </scope>
+                <common:reviewDetails xml:lang="en">Methods and characterization factors are well documented and accessible for use. Models and input data not easily accessible. High environmental relevance of the midpoint model, which considers of removal processes and different emission sources. The damage model, based on empirical data (Netherlands), is considered the most relevant and scientifically sound compared to others. Overall: method recommended for endpoint characteization, though the factors are considered interim. Models potentially adaptable to generate characterization factors for other continents if complemented by appropriate fate and effect models.</common:reviewDetails>
+                <common:referenceToNameOfReviewerAndInstitution type="contact data set" refObjectId="70692df1-c139-480b-bfc0-37a0b99f6880" uri="../contacts/70692df1-c139-480b-bfc0-37a0b99f6880.xml">
+                    <common:shortDescription xml:lang="en">Consortium for defining the recommended Life Cycle Impact Assessment framework, methods and factors </common:shortDescription>
+                </common:referenceToNameOfReviewerAndInstitution>
+                <common:referenceToCompleteReviewReport type="source data set" refObjectId="2d934f14-e39e-4ef2-aa00-5cb53e04ddc2" uri="../sources/2d934f14-e39e-4ef2-aa00-5cb53e04ddc2.xml">
+                    <common:shortDescription xml:lang="en">Review report on recommended LCIA methods</common:shortDescription>
+                </common:referenceToCompleteReviewReport>
+            </review>
+        </validation>
+    </modellingAndValidation>
+    <administrativeInformation>
+        <common:commissionerAndGoal>
+            <common:referenceToCommissioner type="contact data set" refObjectId="ee7677bd-c125-4f02-8e04-5c7023c20a71" uri="../contacts/ee7677bd-c125-4f02-8e04-5c7023c20a71.xml">
+                <common:shortDescription xml:lang="en">Ministry of Housing, Spatial Planning and Environment (VROM)</common:shortDescription>
+            </common:referenceToCommissioner>
+            <common:project xml:lang="en">LCIA method original development  within the ReCiPe project (see www.lcia-recipe.net/) . Documentation as ILCD formatted data set, mapping to the ILCD elementary flows, and additional quality checks by the EC’s JRC-IES and with contractual support projects, partly financed under  several Administrative Arrangements on the European Platform on LCA   - EPLCA' between JRC and DG ENV, (070402/2006/443456/G4, 070307/2007/474521/G4, 070307/2008/513489/G4).</common:project>
+            <common:intendedApplications xml:lang="en">Provide applicable endpoint characterization factors for freshwater eutrophication in Europe.</common:intendedApplications>
+        </common:commissionerAndGoal>
+        <dataGenerator>
+            <common:referenceToPersonOrEntityGeneratingTheDataSet type="contact data set" refObjectId="93973528-186e-4a08-9dea-4c4f7d0f7697" uri="../contacts/93973528-186e-4a08-9dea-4c4f7d0f7697.xml">
+                <common:shortDescription xml:lang="en">Jaap Struijs</common:shortDescription>
+            </common:referenceToPersonOrEntityGeneratingTheDataSet>
+            <common:referenceToPersonOrEntityGeneratingTheDataSet type="contact data set" refObjectId="d0d5f8bb-9311-49d1-9e30-2f20a6977f4f" uri="../contacts/d0d5f8bb-9311-49d1-9e30-2f20a6977f4f.xml">
+                <common:shortDescription xml:lang="en">European Commission, JRC-IES</common:shortDescription>
+            </common:referenceToPersonOrEntityGeneratingTheDataSet>
+        </dataGenerator>
+        <dataEntryBy>
+            <common:timeStamp>2012-01-09T15:25:20.840+01:00</common:timeStamp>
+            <common:referenceToDataSetFormat type="source data set" refObjectId="a97a0155-0234-4b87-b4ce-a45da52f2a40" uri="../sources/a97a0155-0234-4b87-b4ce-a45da52f2a40.xml">
+                <common:shortDescription xml:lang="en">ILCD format</common:shortDescription>
+            </common:referenceToDataSetFormat>
+            <common:referenceToConvertedOriginalDataSetFrom type="source data set" refObjectId="e58cd71d-881d-4b21-8331-f9880e0e53d0" uri="../sources/e58cd71d-881d-4b21-8331-f9880e0e53d0.xml">
+                <common:shortDescription xml:lang="en">Struijs et al. (2008)</common:shortDescription>
+            </common:referenceToConvertedOriginalDataSetFrom>
+            <common:referenceToPersonOrEntityEnteringTheData type="contact data set" refObjectId="cb4152a1-19ed-4e91-a6f7-bce7f6e41710" uri="../contacts/cb4152a1-19ed-4e91-a6f7-bce7f6e41710.xml">
+                <common:shortDescription xml:lang="en">Alexis Laurent</common:shortDescription>
+            </common:referenceToPersonOrEntityEnteringTheData>
+            <recommendationBy>
+                <level>Interim</level>
+                <meaning xml:lang="en">Immature for recommendation. For more information see: ILCD Handbook on recommended LCIA methods for Europe.</meaning>
+            </recommendationBy>
+        </dataEntryBy>
+        <publicationAndOwnership>
+            <common:dateOfLastRevision>2010-07-31T00:00:00</common:dateOfLastRevision>
+            <common:dataSetVersion>01.00.000</common:dataSetVersion>
+            <common:permanentDataSetURI>http://lca.jrc.ec.europa.eu/lcainfohub/datasets/elcd/lciamethods/992c8e8d-769a-4930-9b0f-4fa323250738.xml</common:permanentDataSetURI>
+            <common:workflowAndPublicationStatus>Data set finalised; entirely published</common:workflowAndPublicationStatus>
+            <common:referenceToOwnershipOfDataSet type="contact data set" refObjectId="93973528-186e-4a08-9dea-4c4f7d0f7697" uri="../contacts/93973528-186e-4a08-9dea-4c4f7d0f7697.xml">
+                <common:shortDescription xml:lang="en">Jaap Struijs</common:shortDescription>
+            </common:referenceToOwnershipOfDataSet>
+            <common:copyright>true</common:copyright>
+            <common:accessRestrictions xml:lang="en">The data set can be used free of charge by anybody to perform LCA studies, to distribute it to third parties, to convert it to other formats, to develop own data sets etc. as long as the copyright and license conditions for the ELCD data sets and the ILCD format are met that can be accessed via http://lca.jrc.ec.europa.eu and are part of the ELCD database distribution package. Please note e.g. that reference must be given to the 'Owner of data set' (who may have additional copyright and license requirements on the particular data set that are to be met) and to the 'ELCD database' plus version number, when using the data set or parts thereof. Please note also that any modifications/omissions of the data set results in invalidity of any existing 'Official recommendation of data set by governmental body', that the impression must be avoided that this would still be an original ELCD data set, and that the content of further fields may have to be adjusted. For details see the aforementioned copyright and license conditions as well as those the &quot;Owner of data set&quot; may have put into force.</common:accessRestrictions>
+        </publicationAndOwnership>
+    </administrativeInformation>
+    <characterisationFactors>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="08a91e70-3ddc-11dd-9787-0050c2490048" uri="../flows/08a91e70-3ddc-11dd-9787-0050c2490048.xml">
+                <common:shortDescription xml:lang="en">phosphate (Mass, kg, Emissions to fresh water)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.45E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="32ccd36e-6556-11dd-ad8b-0800200c9a66" uri="../flows/32ccd36e-6556-11dd-ad8b-0800200c9a66.xml">
+                <common:shortDescription xml:lang="en">phosphate (Mass, kg, Emissions to soil, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.45E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="08a91e70-3ddc-11dd-9789-0050c2490048" uri="../flows/08a91e70-3ddc-11dd-9789-0050c2490048.xml">
+                <common:shortDescription xml:lang="en">phosphate (Mass, kg, Emissions to water, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.45E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="08a91e70-3ddc-11dd-9795-0050c2490048" uri="../flows/08a91e70-3ddc-11dd-9795-0050c2490048.xml">
+                <common:shortDescription xml:lang="en">phosphoric acid (Mass, kg, Emissions to fresh water)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.48E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="08a91e70-3ddc-11dd-9790-0050c2490048" uri="../flows/08a91e70-3ddc-11dd-9790-0050c2490048.xml">
+                <common:shortDescription xml:lang="en">phosphoric acid (Mass, kg, Emissions to soil, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.48E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="08a91e70-3ddc-11dd-9797-0050c2490048" uri="../flows/08a91e70-3ddc-11dd-9797-0050c2490048.xml">
+                <common:shortDescription xml:lang="en">phosphoric acid (Mass, kg, Emissions to water, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>1.48E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="f9df3107-6b59-4067-b920-3c61cf3630c7" uri="../flows/f9df3107-6b59-4067-b920-3c61cf3630c7.xml">
+                <common:shortDescription xml:lang="en">phosphorus, total (Mass, kg, Emissions to fresh water)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>4.44E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="1244d519-a6f7-4e6c-89d4-4814c295c060" uri="../flows/1244d519-a6f7-4e6c-89d4-4814c295c060.xml">
+                <common:shortDescription xml:lang="en">phosphorus, total (Mass, kg, Emissions to soil, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>4.44E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+        <factor>
+            <referenceToFlowDataSet type="flow data set" refObjectId="46854df3-e13d-4a5a-9e11-6319f1f8347e" uri="../flows/46854df3-e13d-4a5a-9e11-6319f1f8347e.xml">
+                <common:shortDescription xml:lang="en">phosphorus, total (Mass, kg, Emissions to water, unspecified)</common:shortDescription>
+            </referenceToFlowDataSet>
+            <exchangeDirection>Output</exchangeDirection>
+            <meanValue>4.44E-8</meanValue>
+            <dataDerivationTypeStatus>Calculated</dataDerivationTypeStatus>
+        </factor>
+    </characterisationFactors>
+</LCIAMethodDataSet>
