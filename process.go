@@ -6,10 +6,12 @@ import (
 
 // Process represents an ILCD process data set
 type Process struct {
-	XMLName   xml.Name         `xml:"processDataSet"`
-	Info      *ProcessInfo     `xml:"processInformation>dataSetInformation"`
-	Location  *ProcessLocation `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
-	Exchanges []Exchange       `xml:"exchanges>exchange"`
+	XMLName     xml.Name           `xml:"processDataSet"`
+	Info        *ProcessInfo       `xml:"processInformation>dataSetInformation"`
+	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
+	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
+	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
+	Exchanges   []Exchange         `xml:"exchanges>exchange"`
 }
 
 // ProcessInfo contains the general process information

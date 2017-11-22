@@ -17,3 +17,10 @@ func TestContactVersion(t *testing.T) {
 		t.Fatal("wrong version")
 	}
 }
+
+func TestContactTime(t *testing.T) {
+	c, _ := ReadContactFile("sample_data/contact.xml")
+	if c.DataEntry.TimeStamp != "2012-01-04T15:42:24.609+01:00" {
+		t.Fatal("wrong time")
+	}
+}

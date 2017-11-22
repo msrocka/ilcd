@@ -6,12 +6,13 @@ import (
 
 // Flow represents an ILCD flow data set
 type Flow struct {
-	XMLName                 xml.Name          `xml:"flowDataSet"`
-	Info                    *FlowInfo         `xml:"flowInformation>dataSetInformation"`
-	ReferenceFlowPropertyID int               `xml:"flowInformation>quantitativeReference>referenceToReferenceFlowProperty"`
-	Type                    string            `xml:"modellingAndValidation>LCIMethod>typeOfDataSet"`
-	Publication             *FlowPublication  `xml:"administrativeInformation>publicationAndOwnership"`
-	FlowProperties          []FlowPropertyRef `xml:"flowProperties>flowProperty"`
+	XMLName                 xml.Name           `xml:"flowDataSet"`
+	Info                    *FlowInfo          `xml:"flowInformation>dataSetInformation"`
+	ReferenceFlowPropertyID int                `xml:"flowInformation>quantitativeReference>referenceToReferenceFlowProperty"`
+	Type                    string             `xml:"modellingAndValidation>LCIMethod>typeOfDataSet"`
+	DataEntry               *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
+	Publication             *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
+	FlowProperties          []FlowPropertyRef  `xml:"flowProperties>flowProperty"`
 }
 
 // ReferenceFlowProperty returns the reference to the reference flow property of
@@ -44,12 +45,6 @@ type FlowName struct {
 	Treatment      LangString `xml:"treatmentStandardsRoutes"`
 	MixAndLocation LangString `xml:"mixAndLocationTypes"`
 	Properties     LangString `xml:"flowProperties"`
-}
-
-// FlowPublication contains the information about publication and ownership of a
-// flow.
-type FlowPublication struct {
-	Version string `xml:"dataSetVersion"`
 }
 
 // FlowPropertyRef describes a flow property of a flow.

@@ -6,9 +6,11 @@ import (
 
 // FlowProperty represents an ILCD flow property data set.
 type FlowProperty struct {
-	XMLName   xml.Name          `xml:"flowPropertyDataSet"`
-	Info      *FlowPropertyInfo `xml:"flowPropertiesInformation>dataSetInformation"`
-	UnitGroup *Ref              `xml:"flowPropertiesInformation>quantitativeReference>referenceToReferenceUnitGroup"`
+	XMLName     xml.Name           `xml:"flowPropertyDataSet"`
+	Info        *FlowPropertyInfo  `xml:"flowPropertiesInformation>dataSetInformation"`
+	UnitGroup   *Ref               `xml:"flowPropertiesInformation>quantitativeReference>referenceToReferenceUnitGroup"`
+	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
+	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 }
 
 // FlowPropertyInfo contains the general flow property information
