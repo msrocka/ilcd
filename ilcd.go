@@ -16,6 +16,19 @@ const (
 	UnknownType
 )
 
+// DataSetTypes returns a list with all possible data set types.
+func DataSetTypes() []DataSetType {
+	return []DataSetType{
+		ProcessType,
+		MethodType,
+		FlowType,
+		FlowPropertyType,
+		UnitGroupType,
+		SourceType,
+		ContactType,
+		ExternalDocType}
+}
+
 func (t DataSetType) String() string {
 	switch t {
 	case ProcessType:
