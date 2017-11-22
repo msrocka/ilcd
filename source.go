@@ -10,6 +10,22 @@ type Source struct {
 	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 }
 
+// UUID returns the UUID of the data set.
+func (s *Source) UUID() string {
+	if s == nil || s.Info == nil {
+		return ""
+	}
+	return s.Info.UUID
+}
+
+// Version returns the version of the data set.
+func (s *Source) Version() string {
+	if s == nil || s.Publication == nil {
+		return ""
+	}
+	return s.Publication.Version
+}
+
 // SourceInfo <dataSetInformation>
 type SourceInfo struct {
 	UUID            string           `xml:"UUID"`

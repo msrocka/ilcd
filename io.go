@@ -7,16 +7,30 @@ import (
 
 // ReadProcessFile reads a process data set from the given file.
 func ReadProcessFile(filePath string) (*Process, error) {
-	process := &Process{}
-	err := readFile(filePath, process)
-	return process, err
+	p := &Process{}
+	err := readFile(filePath, p)
+	return p, err
+}
+
+// ReadProcess reads a process data set from the given data
+func ReadProcess(data []byte) (*Process, error) {
+	p := &Process{}
+	err := xml.Unmarshal(data, p)
+	return p, err
 }
 
 // ReadMethodFile reads a LCIA method data set from the given file.
 func ReadMethodFile(filePath string) (*Method, error) {
-	method := &Method{}
-	err := readFile(filePath, method)
-	return method, err
+	m := &Method{}
+	err := readFile(filePath, m)
+	return m, err
+}
+
+// ReadMethod reads a LCIA method data set from the given data.
+func ReadMethod(data []byte) (*Method, error) {
+	m := &Method{}
+	err := xml.Unmarshal(data, m)
+	return m, err
 }
 
 // ReadFlowFile reads a flow data set from the given file.
@@ -26,11 +40,25 @@ func ReadFlowFile(filePath string) (*Flow, error) {
 	return flow, err
 }
 
+// ReadFlow reads a LCIA method data set from the given data.
+func ReadFlow(data []byte) (*Flow, error) {
+	f := &Flow{}
+	err := xml.Unmarshal(data, f)
+	return f, err
+}
+
 // ReadFlowPropertyFile reads a flow property data set from the given file.
 func ReadFlowPropertyFile(filePath string) (*FlowProperty, error) {
 	prop := &FlowProperty{}
 	err := readFile(filePath, prop)
 	return prop, err
+}
+
+// ReadFlowProperty reads a flow property data set from the given data.
+func ReadFlowProperty(data []byte) (*FlowProperty, error) {
+	fp := &FlowProperty{}
+	err := xml.Unmarshal(data, fp)
+	return fp, err
 }
 
 // ReadCategoryFile reads a category system from the given file.
@@ -47,6 +75,13 @@ func ReadContactFile(filePath string) (*Contact, error) {
 	return c, err
 }
 
+// ReadContact reads a contact data set from the given data
+func ReadContact(data []byte) (*Contact, error) {
+	c := &Contact{}
+	err := xml.Unmarshal(data, c)
+	return c, err
+}
+
 // ReadSourceFile reads a source data set from the given file
 func ReadSourceFile(filePath string) (*Source, error) {
 	s := &Source{}
@@ -54,10 +89,24 @@ func ReadSourceFile(filePath string) (*Source, error) {
 	return s, err
 }
 
+// ReadSource reads a source data set from the given data
+func ReadSource(data []byte) (*Source, error) {
+	s := &Source{}
+	err := xml.Unmarshal(data, s)
+	return s, err
+}
+
 // ReadUnitGroupFile reads a unit group data set from the given file
 func ReadUnitGroupFile(filePath string) (*UnitGroup, error) {
 	ug := &UnitGroup{}
 	err := readFile(filePath, ug)
+	return ug, err
+}
+
+// ReadUnitGroup reads a unit group data set from the given data
+func ReadUnitGroup(data []byte) (*UnitGroup, error) {
+	ug := &UnitGroup{}
+	err := xml.Unmarshal(data, ug)
 	return ug, err
 }
 

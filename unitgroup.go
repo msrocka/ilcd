@@ -12,6 +12,22 @@ type UnitGroup struct {
 	Units       []Unit             `xml:"units>unit"`
 }
 
+// UUID returns the UUID of the data set.
+func (ug *UnitGroup) UUID() string {
+	if ug == nil || ug.Info == nil {
+		return ""
+	}
+	return ug.Info.UUID
+}
+
+// Version returns the version of the data set.
+func (ug *UnitGroup) Version() string {
+	if ug == nil || ug.Publication == nil {
+		return ""
+	}
+	return ug.Publication.Version
+}
+
 // ReferenceUnit returns the reference unit of an unit group.
 func (ug *UnitGroup) ReferenceUnit() *Unit {
 	if ug == nil {

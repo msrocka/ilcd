@@ -13,6 +13,22 @@ type FlowProperty struct {
 	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 }
 
+// UUID returns the UUID of the data set.
+func (fp *FlowProperty) UUID() string {
+	if fp == nil || fp.Info == nil {
+		return ""
+	}
+	return fp.Info.UUID
+}
+
+// Version returns the version of the data set.
+func (fp *FlowProperty) Version() string {
+	if fp == nil || fp.Publication == nil {
+		return ""
+	}
+	return fp.Publication.Version
+}
+
 // FlowPropertyInfo contains the general flow property information
 type FlowPropertyInfo struct {
 	UUID            string           `xml:"UUID"`

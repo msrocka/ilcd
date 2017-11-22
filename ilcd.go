@@ -67,3 +67,9 @@ func (t DataSetType) Folder() string {
 		return "other"
 	}
 }
+
+// DataSet contains the common functions of all data set types.
+type DataSet interface {
+	UUID() string
+	Version() string
+}

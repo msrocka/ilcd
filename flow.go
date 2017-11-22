@@ -29,6 +29,22 @@ func (f *Flow) ReferenceFlowProperty() *FlowPropertyRef {
 	return nil
 }
 
+// UUID returns the UUID of the data set.
+func (f *Flow) UUID() string {
+	if f == nil || f.Info == nil {
+		return ""
+	}
+	return f.Info.UUID
+}
+
+// Version returns the version of the data set.
+func (f *Flow) Version() string {
+	if f == nil || f.Publication == nil {
+		return ""
+	}
+	return f.Publication.Version
+}
+
 // FlowInfo contains the general flow information
 type FlowInfo struct {
 	UUID            string           `xml:"UUID"`

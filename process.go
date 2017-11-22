@@ -14,6 +14,22 @@ type Process struct {
 	Exchanges   []Exchange         `xml:"exchanges>exchange"`
 }
 
+// UUID returns the UUID of the data set.
+func (p *Process) UUID() string {
+	if p == nil || p.Info == nil {
+		return ""
+	}
+	return p.Info.UUID
+}
+
+// Version returns the version of the data set.
+func (p *Process) Version() string {
+	if p == nil || p.Publication == nil {
+		return ""
+	}
+	return p.Publication.Version
+}
+
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
 	UUID            string           `xml:"UUID"`
