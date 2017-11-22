@@ -54,6 +54,13 @@ func ReadSourceFile(filePath string) (*Source, error) {
 	return s, err
 }
 
+// ReadUnitGroupFile reads a unit group data set from the given file
+func ReadUnitGroupFile(filePath string) (*UnitGroup, error) {
+	ug := &UnitGroup{}
+	err := readFile(filePath, ug)
+	return ug, err
+}
+
 func readFile(filePath string, dataSet interface{}) error {
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {

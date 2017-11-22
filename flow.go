@@ -6,13 +6,13 @@ import (
 
 // Flow represents an ILCD flow data set
 type Flow struct {
-	XMLName                 xml.Name           `xml:"flowDataSet"`
-	Info                    *FlowInfo          `xml:"flowInformation>dataSetInformation"`
-	ReferenceFlowPropertyID int                `xml:"flowInformation>quantitativeReference>referenceToReferenceFlowProperty"`
-	Type                    string             `xml:"modellingAndValidation>LCIMethod>typeOfDataSet"`
-	DataEntry               *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
-	Publication             *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
-	FlowProperties          []FlowPropertyRef  `xml:"flowProperties>flowProperty"`
+	XMLName        xml.Name           `xml:"flowDataSet"`
+	Info           *FlowInfo          `xml:"flowInformation>dataSetInformation"`
+	QRef           int                `xml:"flowInformation>quantitativeReference>referenceToReferenceFlowProperty"`
+	Type           string             `xml:"modellingAndValidation>LCIMethod>typeOfDataSet"`
+	DataEntry      *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
+	Publication    *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
+	FlowProperties []FlowPropertyRef  `xml:"flowProperties>flowProperty"`
 }
 
 // ReferenceFlowProperty returns the reference to the reference flow property of
@@ -22,7 +22,7 @@ func (f *Flow) ReferenceFlowProperty() *FlowPropertyRef {
 		return nil
 	}
 	for i, ref := range f.FlowProperties {
-		if ref.ID == f.ReferenceFlowPropertyID {
+		if ref.ID == f.QRef {
 			return &f.FlowProperties[i]
 		}
 	}
