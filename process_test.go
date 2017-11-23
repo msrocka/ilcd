@@ -26,3 +26,14 @@ func TestProcessSynonyms(t *testing.T) {
 		t.Fatal("synonyms@en != 'Power grid mix'")
 	}
 }
+
+func TestProcessRefFlows(t *testing.T) {
+	p, _ := ReadProcessFile("sample_data/process.xml")
+	refFlows := p.RefFlows()
+	if len(refFlows) != 1 {
+		t.Fatal("expected exactly one reference flow")
+	}
+	if refFlows[0].Flow.Name.Get("en") != "Electricity" {
+		t.Fatal("Could not find reference flow")
+	}
+}

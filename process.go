@@ -9,6 +9,7 @@ import (
 type Process struct {
 	XMLName     xml.Name           `xml:"processDataSet"`
 	Info        *ProcessInfo       `xml:"processInformation>dataSetInformation"`
+	QRefs       []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
 	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
 	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
 	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
@@ -55,6 +56,29 @@ func (p *Process) FullName(lang string) string {
 		}
 	}
 	return n
+}
+
+// RefFlows returns the exchanges that are defined as quantitative refeferences
+// of the process. In most cases this should be just one exchange.
+func (p *Process) RefFlows() []*Exchange {
+	if len(p.QRefs) == 0 {
+		return nil
+	}
+	n := 0
+	var refs []*Exchange
+	for _, e := range p.Exchanges {
+		for _, id := range p.QRefs {
+			if id != e.InternalID {
+				continue
+			}
+			refs = append(refs, &e)
+			n++
+			if n >= len(p.QRefs) {
+				return refs
+			}
+		}
+	}
+	return refs
 }
 
 // ProcessInfo contains the general process information
