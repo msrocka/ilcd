@@ -39,23 +39,23 @@ func (ref *Ref) DataSetType() DataSetType {
 	}
 	switch ref.Type {
 	case "source data set":
-		return SourceType
+		return SourceDataSet
 	case "process data set":
-		return ProcessType
+		return ProcessDataSet
 	case "flow data set":
-		return FlowType
+		return FlowDataSet
 	case "flow property data set":
-		return FlowPropertyType
+		return FlowPropertyDataSet
 	case "unit group data set":
-		return UnitGroupType
+		return UnitGroupDataSet
 	case "contact data set":
-		return ContactType
+		return ContactDataSet
 	case "LCIA method data set":
-		return MethodType
+		return MethodDataSet
 	case "other external file":
-		return ExternalDocType
+		return ExternalDoc
 	default:
-		return UnknownType
+		return ExternalDoc
 	}
 }
 

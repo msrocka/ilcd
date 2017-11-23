@@ -45,6 +45,23 @@ func (f *Flow) Version() string {
 	return f.Publication.Version
 }
 
+// FlowType returns the flow type constant of the flow.
+func (f *Flow) FlowType() FlowType {
+	if f == nil {
+		return OtherFlow
+	}
+	switch f.Type {
+	case "Elementary flow":
+		return ElementaryFlow
+	case "Product flow":
+		return ProductFlow
+	case "Waste flow":
+		return WasteFlow
+	default:
+		return OtherFlow
+	}
+}
+
 // FlowInfo contains the general flow information
 type FlowInfo struct {
 	UUID            string           `xml:"UUID"`

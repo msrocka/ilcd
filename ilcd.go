@@ -5,50 +5,47 @@ type DataSetType int
 
 // The ILCD data set types
 const (
-	ProcessType DataSetType = iota + 1
-	MethodType
-	FlowType
-	FlowPropertyType
-	UnitGroupType
-	SourceType
-	ContactType
-	ExternalDocType
-	UnknownType
+	ProcessDataSet DataSetType = iota + 1
+	MethodDataSet
+	FlowDataSet
+	FlowPropertyDataSet
+	UnitGroupDataSet
+	SourceDataSet
+	ContactDataSet
+	ExternalDoc
 )
 
 // DataSetTypes returns a list with all possible data set types.
 func DataSetTypes() []DataSetType {
 	return []DataSetType{
-		ProcessType,
-		MethodType,
-		FlowType,
-		FlowPropertyType,
-		UnitGroupType,
-		SourceType,
-		ContactType,
-		ExternalDocType}
+		ProcessDataSet,
+		MethodDataSet,
+		FlowDataSet,
+		FlowPropertyDataSet,
+		UnitGroupDataSet,
+		SourceDataSet,
+		ContactDataSet,
+		ExternalDoc}
 }
 
 func (t DataSetType) String() string {
 	switch t {
-	case ProcessType:
+	case ProcessDataSet:
 		return "process data set"
-	case SourceType:
+	case SourceDataSet:
 		return "source data set"
-	case ContactType:
+	case ContactDataSet:
 		return "contact data set"
-	case FlowType:
+	case FlowDataSet:
 		return "flow data set"
-	case FlowPropertyType:
+	case FlowPropertyDataSet:
 		return "flow property data set"
-	case UnitGroupType:
+	case UnitGroupDataSet:
 		return "unit group data set"
-	case MethodType:
+	case MethodDataSet:
 		return "LCIA method data set"
-	case ExternalDocType:
+	case ExternalDoc:
 		return "other external file"
-	case UnknownType:
-		return "unknown?"
 	default:
 		return "unknown?"
 	}
@@ -58,24 +55,22 @@ func (t DataSetType) String() string {
 // stored in an ILCD package.
 func (t DataSetType) Folder() string {
 	switch t {
-	case ProcessType:
+	case ProcessDataSet:
 		return "processes"
-	case SourceType:
+	case SourceDataSet:
 		return "sources"
-	case ContactType:
+	case ContactDataSet:
 		return "contacts"
-	case FlowType:
+	case FlowDataSet:
 		return "flows"
-	case FlowPropertyType:
+	case FlowPropertyDataSet:
 		return "flowproperties"
-	case UnitGroupType:
+	case UnitGroupDataSet:
 		return "unitgroups"
-	case MethodType:
+	case MethodDataSet:
 		return "lciamethods"
-	case ExternalDocType:
+	case ExternalDoc:
 		return "external_docs"
-	case UnknownType:
-		return "other"
 	default:
 		return "other"
 	}
@@ -85,4 +80,28 @@ func (t DataSetType) Folder() string {
 type DataSet interface {
 	UUID() string
 	Version() string
+}
+
+// FlowType is an enumeration type of the different ILCD flow types.
+type FlowType int
+
+// Enumaration constants for the ILCD flow types.
+const (
+	ElementaryFlow FlowType = iota + 1
+	ProductFlow
+	WasteFlow
+	OtherFlow
+)
+
+func (ft FlowType) String() string {
+	switch ft {
+	case ElementaryFlow:
+		return "Elementary flow"
+	case ProductFlow:
+		return "Product flow"
+	case WasteFlow:
+		return "Waste flow"
+	default:
+		return "Other flow"
+	}
 }
