@@ -2,6 +2,7 @@ package ilcd
 
 import (
 	"encoding/xml"
+	"strings"
 )
 
 // Process represents an ILCD process data set
@@ -28,6 +29,32 @@ func (p *Process) Version() string {
 		return ""
 	}
 	return p.Publication.Version
+}
+
+// FullName returns the full name of the process for the given language whith
+// all name parts concatenated to a single string.
+func (p *Process) FullName(lang string) string {
+	if p == nil || p.Info == nil || p.Info.Name == nil {
+		return ""
+	}
+	name := p.Info.Name
+	parts := [4]string{name.BaseName.Get(lang),
+		name.Treatment.Get(lang),
+		name.MixAndLocation.Get(lang),
+		name.Properties.Get(lang)}
+	n := ""
+	for _, part := range parts {
+		p := strings.TrimSpace(part)
+		if p == "" {
+			continue
+		}
+		if n == "" {
+			n = p
+		} else {
+			n += "; " + p
+		}
+	}
+	return n
 }
 
 // ProcessInfo contains the general process information
@@ -57,8 +84,9 @@ type ProcessLocation struct {
 // Exchange is an input or output of an ILCD process data set.
 type Exchange struct {
 	InternalID      int     `xml:"dataSetInternalID,attr"`
-	Flow            Ref     `xml:"referenceToFlowDataSet"`
+	Flow            *Ref    `xml:"referenceToFlowDataSet"`
 	Direction       string  `xml:"exchangeDirection"`
 	MeanAmount      float64 `xml:"meanAmount"`
 	ResultingAmount float64 `xml:"resultingAmount"`
+	Location        string  `xml:"location"`
 }

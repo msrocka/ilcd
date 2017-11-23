@@ -43,8 +43,9 @@ type MethodInfo struct {
 
 // ImpactFactor :<characterisationFactors/factor>
 type ImpactFactor struct {
-	Flow           Ref     `xml:"referenceToFlowDataSet"`
+	Flow           *Ref    `xml:"referenceToFlowDataSet"`
 	Direction      string  `xml:"exchangeDirection"`
 	MeanValue      float64 `xml:"meanValue"`
 	DataDerivation string  `xml:"dataDerivationTypeStatus"`
+	Location       string  `xml:"location"`
 }
