@@ -33,3 +33,10 @@ func TestFlowType(t *testing.T) {
 		t.Fatal("wrong flow type")
 	}
 }
+
+func TestFlowCompartments(t *testing.T) {
+	f, _ := ReadFlowFile("sample_data/flow.xml")
+	if len(f.Info.Compartments) != 3 {
+		t.Fatal("failed to read flow compartments")
+	}
+}

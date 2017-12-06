@@ -68,6 +68,7 @@ type FlowInfo struct {
 	Name            *FlowName        `xml:"name"`
 	Synonyms        LangString       `xml:"synonyms"`
 	Classifications []Classification `xml:"classificationInformation>classification"`
+	Compartments    []Compartment    `xml:"classificationInformation>elementaryFlowCategorization>category"`
 	CAS             string           `xml:"CASNumber"`
 	Comment         LangString       `xml:"generalComment"`
 }
@@ -86,4 +87,11 @@ type FlowPropertyRef struct {
 	FlowProperty *Ref       `xml:"referenceToFlowPropertyDataSet"`
 	Mean         float64    `xml:"meanValue"`
 	Comment      LangString `xml:"generalComment"`
+}
+
+// A Compartment is a category in an ILCD elementary flow categorization.
+// Note that the tag names in ILCD are elementaryFlowCategorization > category
+type Compartment struct {
+	Level int    `xml:"level,attr"`
+	Name  string `xml:",chardata"`
 }
