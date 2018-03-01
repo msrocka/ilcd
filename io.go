@@ -5,6 +5,20 @@ import (
 	"io/ioutil"
 )
 
+// ReadModelFile reads a life cycle model from the given file.
+func ReadModelFile(filePath string) (*Model, error) {
+	m := &Model{}
+	err := readFile(filePath, m)
+	return m, err
+}
+
+// ReadModel reads a life cycle model from the given data.
+func ReadModel(data []byte) (*Model, error) {
+	m := &Model{}
+	err := xml.Unmarshal(data, m)
+	return m, err
+}
+
 // ReadProcessFile reads a process data set from the given file.
 func ReadProcessFile(filePath string) (*Process, error) {
 	p := &Process{}

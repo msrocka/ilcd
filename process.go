@@ -38,7 +38,13 @@ func (p *Process) FullName(lang string) string {
 	if p == nil || p.Info == nil || p.Info.Name == nil {
 		return ""
 	}
-	name := p.Info.Name
+	return p.Info.Name.concat(lang)
+}
+
+func (name *ProcessName) concat(lang string) string {
+	if name == nil {
+		return ""
+	}
 	parts := [4]string{name.BaseName.Get(lang),
 		name.Treatment.Get(lang),
 		name.MixAndLocation.Get(lang),
