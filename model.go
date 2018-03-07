@@ -44,6 +44,7 @@ type ProcessInstance struct {
 	InternalID  int                 `xml:"dataSetInternalID,attr"`
 	Process     *Ref                `xml:"referenceToProcess"`
 	Connections []ProcessConnection `xml:"connections>outputExchange"`
+	Parameters  []ModelParameter    `xml:"parameters>parameter"`
 }
 
 // ProcessConnection describes a connection between two processes in a life
@@ -61,4 +62,10 @@ type DownstreamLink struct {
 	ProcessID  int    `xml:"id,attr"`
 	Location   string `xml:"location,attr,omitempty"`
 	IsDominant *bool  `xml:"dominant,attr,omitempty"`
+}
+
+// A ModelParameter is a parameter of a process instance in a life cycle model.
+type ModelParameter struct {
+	Name  string  `xml:"name,attr"`
+	Value float64 `xml:",chardata"`
 }
