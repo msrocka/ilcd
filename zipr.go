@@ -179,6 +179,24 @@ func (r *ZipReader) EachMethod(fn func(*Method) bool) error {
 	return nil
 }
 
+// EachModel iterates over each life cycle model in the package unless
+// the given handler returns false.
+func (r *ZipReader) EachModel(fn func(*Model) bool) error {
+	for _, f := range r.r.File {
+		if !IsModelPath(f.Name) {
+			continue
+		}
+		model := &Model{}
+		if err := unmarshal(f, model); err != nil {
+			return err
+		}
+		if !fn(model) {
+			break
+		}
+	}
+	return nil
+}
+
 // EachFlowProperty iterates over each flow property data set in the package unless
 // the given handler returns false.
 func (r *ZipReader) EachFlowProperty(fn func(*FlowProperty) bool) error {

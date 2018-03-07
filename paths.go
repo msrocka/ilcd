@@ -4,6 +4,12 @@ import (
 	"strings"
 )
 
+// IsModelPath returns true if the given file path or zip entry name is
+// probably a life cycle model data set (of the extended ILCD format).
+func IsModelPath(path string) bool {
+	return isXMLInFolder(path, "lifecyclemodels")
+}
+
 // IsMethodPath returns true if the given file path or zip entry name is
 // probably a LCIA method data set.
 func IsMethodPath(path string) bool {
