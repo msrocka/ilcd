@@ -91,6 +91,12 @@ Refinery products: Diesel, gasoline, technical gases, fuel oils, basic oils and 
     </technology>
     <mathematicalRelations>
       <modelDescription xml:lang="en">The fossil power plant models combine literature data plus calculated values for not measured emissions of e.g. organics or heavy metals. For the emissions CO2, SO2, NOx, CO, CH4, N2O NMVOC and particulate matter measured or calculated data is used, taken from e.g. national inventory reports, emission inventory data bases, utility compannies and other sources. The calculation of other emission within the models is based on energy carrier composition, transfer coefficients and power plant physics representing the applied flue gas treatment technologies and standards (flue gas desuphurisation, dust filter etc.).</modelDescription>
+      <variableParameter name="distance">
+        <formula>1000</formula>
+        <meanValue>1000.0</meanValue>
+        <relativeStandardDeviation95In>0</relativeStandardDeviation95In>
+        <comment xml:lang="en">[km] distance start - end, default = 100 km</comment>
+      </variableParameter>
     </mathematicalRelations>
   </processInformation>
   <modellingAndValidation>

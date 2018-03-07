@@ -11,6 +11,7 @@ type Process struct {
 	Info        *ProcessInfo       `xml:"processInformation>dataSetInformation"`
 	QRefs       []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
 	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
+	Parameters  []Parameter        `xml:"processInformation>mathematicalRelations>variableParameter"`
 	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
 	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 	Exchanges   []Exchange         `xml:"exchanges>exchange"`
@@ -111,12 +112,26 @@ type ProcessLocation struct {
 	Description LangString `xml:"descriptionOfRestrictions"`
 }
 
-// Exchange is an input or output of an ILCD process data set.
+// Parameter contains the information of a process parameter or variable under
+// the tag <variableParameter>
+type Parameter struct {
+	Name    string     `xml:"name,attr"`
+	Formula string     `xml:"formula,omitempty"`
+	Value   float64    `xml:"meanValue"`
+	SD95    float64    `xml:"relativeStandardDeviation95In"`
+	Comment LangString `xml:"comment"`
+}
+
+// Exchange is an input or output of an ILCD process data set. Note that an
+// exchange has a MeanAmount and ResultingAmount. Both values are the same if
+// the exchange has no reference to a variable. Otherwise the ResultingAmount
+// is calculated via the formula: ResultingAmount = MeanAmount * Variable.
 type Exchange struct {
 	InternalID      int     `xml:"dataSetInternalID,attr"`
 	Flow            *Ref    `xml:"referenceToFlowDataSet"`
 	Direction       string  `xml:"exchangeDirection"`
 	MeanAmount      float64 `xml:"meanAmount"`
+	Variable        string  `xml:"referenceToVariable,omitempty"`
 	ResultingAmount float64 `xml:"resultingAmount"`
 	Location        string  `xml:"location"`
 }

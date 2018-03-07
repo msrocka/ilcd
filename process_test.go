@@ -37,3 +37,14 @@ func TestProcessRefFlows(t *testing.T) {
 		t.Fatal("Could not find reference flow")
 	}
 }
+
+func TestProcessParameters(t *testing.T) {
+	p, _ := ReadProcessFile("sample_data/process.xml")
+	params := p.Parameters
+	if len(params) != 1 {
+		t.Fatal("There should be a parameter in the example process")
+	}
+	if params[0].Name != "distance" {
+		t.Fatal("The parameter name should be 'distance'")
+	}
+}
