@@ -96,6 +96,33 @@ type DataSet interface {
 	Version() string
 }
 
+// Type returns the type of the given data set.
+func Type(ds DataSet) DataSetType {
+	if ds == nil {
+		return Asset
+	}
+	switch t := ds.(type) {
+	case *Model:
+		return ModelDataSet
+	case *Method:
+		return MethodDataSet
+	case *Process:
+		return ProcessDataSet
+	case *Flow:
+		return FlowDataSet
+	case *FlowProperty:
+		return FlowPropertyDataSet
+	case *UnitGroup:
+		return UnitGroupDataSet
+	case *Source:
+		return SourceDataSet
+	case *Contact:
+		return ContactDataSet
+	default:
+		return Asset
+	}
+}
+
 // FlowType is an enumeration type of the different ILCD flow types.
 type FlowType int
 

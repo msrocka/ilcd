@@ -2,6 +2,7 @@ package ilcd
 
 import (
 	"archive/zip"
+	"encoding/xml"
 	"os"
 )
 
@@ -25,39 +26,34 @@ func (w *ZipWriter) Close() error {
 	return w.w.Close()
 }
 
-// PutProcessData adds the given process data set
-func (w *ZipWriter) PutProcessData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/processes/"+uuid+".xml", data)
+// Path calculates the path of the zip entry of the given data set.
+func (w *ZipWriter) Path(ds DataSet) string {
+	if ds == nil {
+		return ""
+	}
+	file := ds.UUID() + "_" + ds.Version() + ".xml"
+	dsType := Type(ds)
+	return "ILCD/" + dsType.Folder() + "/" + file
 }
 
-// PutFlowData adds the given flow data set
-func (w *ZipWriter) PutFlowData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/flows/"+uuid+".xml", data)
+// WriteDataSet writes the given data set to the zip package.
+func (w *ZipWriter) WriteDataSet(ds DataSet) error {
+	if ds == nil {
+		return nil
+	}
+	data, err := xml.Marshal(ds)
+	if err != nil {
+		return err
+	}
+	return w.Write(w.Path(ds), data)
 }
 
-// PutFlowPropertyData adds the given flow property data set
-func (w *ZipWriter) PutFlowPropertyData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/flowproperties/"+uuid+".xml", data)
-}
-
-// PutUnitGroupData adds the given unit group data set
-func (w *ZipWriter) PutUnitGroupData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/unitgroups/"+uuid+".xml", data)
-}
-
-// PutSourceData adds the given source data set
-func (w *ZipWriter) PutSourceData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/sources/"+uuid+".xml", data)
-}
-
-// PutContactData adds the given contact data set
-func (w *ZipWriter) PutContactData(uuid string, data []byte) error {
-	return w.WriteEntry("ILCD/contacts/"+uuid+".xml", data)
-}
-
-// WriteEntry writes the given data under the given file name in the zip.
-func (w *ZipWriter) WriteEntry(filePath string, data []byte) error {
-	writer, err := w.w.Create(filePath)
+// Write writes the given data under the given path into the zip package.
+func (w *ZipWriter) Write(path string, data []byte) error {
+	if path == "" || len(data) == 0 {
+		return nil
+	}
+	writer, err := w.w.Create(path)
 	if err != nil {
 		return err
 	}
