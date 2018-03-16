@@ -5,19 +5,27 @@ type DataSetType int
 
 // The ILCD data set types
 const (
-	ProcessDataSet DataSetType = iota + 1
+	ModelDataSet DataSetType = iota + 1
+	ProcessDataSet
 	MethodDataSet
 	FlowDataSet
 	FlowPropertyDataSet
 	UnitGroupDataSet
 	SourceDataSet
 	ContactDataSet
+
+	// External documents that can be linked to source data sets.
 	ExternalDoc
+
+	// Assets are all the additional things that may occur in an ILCD package
+	// like XML schemas, style sheets, etc.
+	Asset
 )
 
 // DataSetTypes returns a list with all possible data set types.
 func DataSetTypes() []DataSetType {
 	return []DataSetType{
+		ModelDataSet,
 		ProcessDataSet,
 		MethodDataSet,
 		FlowDataSet,
@@ -30,6 +38,8 @@ func DataSetTypes() []DataSetType {
 
 func (t DataSetType) String() string {
 	switch t {
+	case ModelDataSet:
+		return "life cycle model data set"
 	case ProcessDataSet:
 		return "process data set"
 	case SourceDataSet:
@@ -46,6 +56,8 @@ func (t DataSetType) String() string {
 		return "LCIA method data set"
 	case ExternalDoc:
 		return "other external file"
+	case Asset:
+		return "asset"
 	default:
 		return "unknown?"
 	}
@@ -55,6 +67,8 @@ func (t DataSetType) String() string {
 // stored in an ILCD package.
 func (t DataSetType) Folder() string {
 	switch t {
+	case ModelDataSet:
+		return "lifecyclemodels"
 	case ProcessDataSet:
 		return "processes"
 	case SourceDataSet:

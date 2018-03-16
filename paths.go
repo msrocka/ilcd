@@ -52,6 +52,18 @@ func IsContactPath(path string) bool {
 	return isXMLInFolder(path, "contacts")
 }
 
+// IsExternalDoc returns true if the given path is something in the
+// `external_docs` folder.
+func IsExternalDoc(path string) bool {
+	p := strings.ToLower(path)
+	if strings.HasSuffix(p, "external_docs") {
+		// we a searching something *in* the external doc folder, not the folder
+		// itself
+		return false
+	}
+	return strings.Contains(p, "external_docs")
+}
+
 func isXMLInFolder(path, folder string) bool {
 	p := strings.ToLower(path)
 	if !strings.Contains(p, folder) {
