@@ -2,8 +2,6 @@ package ilcd
 
 import (
 	"archive/zip"
-	"encoding/xml"
-	"io/ioutil"
 	"strings"
 )
 
@@ -23,89 +21,23 @@ func (r *ZipReader) Close() error {
 	return r.r.Close()
 }
 
-// GetProcess returns the process with the given UUID from the zip.
-func (r *ZipReader) GetProcess(uuid string) (*Process, error) {
-	file := r.findXML("processes", uuid)
-	if file == nil {
-		return nil, ErrDataSetNotFound
-	}
-	p := &Process{}
-	err := unmarshal(file, p)
-	return p, err
-}
-
-// GetProcessData returns the process data set with the given UUID as byte array.
-func (r *ZipReader) GetProcessData(uuid string) ([]byte, error) {
-	return r.xmlData("processes", uuid)
-}
-
-// GetFlow returns the flow with the given UUID from the zip.
-func (r *ZipReader) GetFlow(uuid string) (*Flow, error) {
-	file := r.findXML("flows", uuid)
-	if file == nil {
-		return nil, ErrDataSetNotFound
-	}
-	f := &Flow{}
-	err := unmarshal(file, f)
-	return f, err
-}
-
-// GetFlowData returns the flow data set with the given UUID as byte array.
-func (r *ZipReader) GetFlowData(uuid string) ([]byte, error) {
-	return r.xmlData("flows", uuid)
-}
-
-// GetFlowProperty returns the flow property with the given UUID from the zip.
-func (r *ZipReader) GetFlowProperty(uuid string) (*FlowProperty, error) {
-	file := r.findXML("flowproperties", uuid)
-	if file == nil {
-		return nil, ErrDataSetNotFound
-	}
-	fp := &FlowProperty{}
-	err := unmarshal(file, fp)
-	return fp, err
-}
-
-// GetFlowPropertyData returns the flow property data set with the given UUID
-// as byte array.
-func (r *ZipReader) GetFlowPropertyData(uuid string) ([]byte, error) {
-	return r.xmlData("flowproperties", uuid)
-}
-
-// GetUnitGroupData returns the unit group data set with the given UUID as byte array.
-func (r *ZipReader) GetUnitGroupData(uuid string) ([]byte, error) {
-	return r.xmlData("unitgroups", uuid)
-}
-
-// GetSource returns the source data set with the given UUID as byte array.
-func (r *ZipReader) GetSource(uuid string) ([]byte, error) {
-	return r.xmlData("sources", uuid)
-}
-
-// GetContact returns the contact data set with the given UUID as byte array.
-func (r *ZipReader) GetContact(uuid string) ([]byte, error) {
-	return r.xmlData("contacts", uuid)
-}
-
-func (r *ZipReader) xmlData(path, uuid string) ([]byte, error) {
-	file := r.findXML(path, uuid)
-	if file == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return readData(file)
-}
-
-func (r *ZipReader) findXML(path, uuid string) *zip.File {
-	for _, f := range r.r.File {
-		name := f.Name
-		if !strings.Contains(name, path) {
+// FindDataSet searches for a data set of the give type and with the given
+// uuid and returns the corresponding zip file. If nothing is found, it returns
+// nil.
+func (r *ZipReader) FindDataSet(dsType DataSetType, uuid string) *ZipFile {
+	dsFolder := dsType.Folder()
+	files := r.r.File
+	for i := range files {
+		f := files[i]
+		path := strings.ToLower(f.Name)
+		if !strings.Contains(path, dsFolder) {
 			continue
 		}
-		if !strings.HasSuffix(name, ".xml") {
+		if !strings.HasSuffix(path, ".xml") {
 			continue
 		}
-		if strings.Contains(name, uuid) {
-			return f
+		if strings.Contains(path, uuid) {
+			return newZipFile(f)
 		}
 	}
 	return nil
@@ -266,20 +198,4 @@ func (r *ZipReader) EachFile(fn func(f *ZipFile) bool) {
 			break
 		}
 	}
-}
-
-// EachEntry calls the given function with the name and data of each entry in
-// the zip file.
-func (r *ZipReader) EachEntry(fn func(name string, data []byte) error) error {
-	for _, f := range r.r.File {
-		data, err := readData(f)
-		if err != nil {
-			return err
-		}
-		err = fn(f.Name, data)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }
