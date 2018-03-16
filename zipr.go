@@ -208,9 +208,10 @@ type zDataEntry struct {
 // Map applies the given function to all entries in the zip file and writes
 // the function's output to the given writer.
 //
-// The result of a function call is the path and the data of the
-func (r *ZipReader) Map(
-	fn func(file *ZipFile) (string, []byte), w *ZipWriter) {
+// The result of a function call is the path and the data that should be written
+// to the writer. If the path or data are empty, nothing will be written. The
+// given function is executed in a separate Go routine.
+func (r *ZipReader) Map(w *ZipWriter, fn func(file *ZipFile) (string, []byte)) {
 	if w == nil {
 		return
 	}
@@ -218,14 +219,18 @@ func (r *ZipReader) Map(
 	go func() {
 		r.EachFile(func(zf *ZipFile) bool {
 			path, data := fn(zf)
-			c <- &zDataEntry{path, data}
+			if path != "" && len(data) > 0 {
+				c <- &zDataEntry{path, data}
+			}
 			return true
 		})
 		close(c)
 	}()
-	go func() {
-		for e := range c {
-			w.Write(e.path, e.data)
+	for {
+		entry, more := <-c
+		if !more {
+			break
 		}
-	}()
+		w.Write(entry.path, entry.data)
+	}
 }
