@@ -101,7 +101,7 @@ func Type(ds DataSet) DataSetType {
 	if ds == nil {
 		return Asset
 	}
-	switch t := ds.(type) {
+	switch ds.(type) {
 	case *Model:
 		return ModelDataSet
 	case *Method:

@@ -17,3 +17,30 @@ func TestCommonDataSetFields(t *testing.T) {
 		}
 	}
 }
+
+func TestType(t *testing.T) {
+	if Type(&Model{}) != ModelDataSet {
+		t.Fatal("The data set type for Model should be ModelDataSet")
+	}
+	if Type(&Method{}) != MethodDataSet {
+		t.Fatal("The data set type for Method should be MethodDataSet")
+	}
+	if Type(&Process{}) != ProcessDataSet {
+		t.Fatal("The data set type for Process should be ProcessDataSet")
+	}
+	if Type(&Flow{}) != FlowDataSet {
+		t.Fatal("The data set type for Flow should be FlowDataSet")
+	}
+	if Type(&FlowProperty{}) != FlowPropertyDataSet {
+		t.Fatal("The data set type for FlowProperty should be FlowPropertyDataSet")
+	}
+	if Type(&UnitGroup{}) != UnitGroupDataSet {
+		t.Fatal("The data set type for UnitGroup should be UnitGroupDataSet")
+	}
+	if Type(&Source{}) != SourceDataSet {
+		t.Fatal("The data set type for Source should be SourceDataSet")
+	}
+	if Type(&Contact{}) != ContactDataSet {
+		t.Fatal("The data set type for Contact should be ContactDataSet")
+	}
+}

@@ -199,3 +199,33 @@ func (r *ZipReader) EachFile(fn func(f *ZipFile) bool) {
 		}
 	}
 }
+
+type zDataEntry struct {
+	path string
+	data []byte
+}
+
+// Map applies the given function to all entries in the zip file and writes
+// the function's output to the given writer.
+//
+// The result of a function call is the path and the data of the
+func (r *ZipReader) Map(
+	fn func(file *ZipFile) (string, []byte), w *ZipWriter) {
+	if w == nil {
+		return
+	}
+	c := make(chan *zDataEntry)
+	go func() {
+		r.EachFile(func(zf *ZipFile) bool {
+			path, data := fn(zf)
+			c <- &zDataEntry{path, data}
+			return true
+		})
+		close(c)
+	}()
+	go func() {
+		for e := range c {
+			w.Write(e.path, e.data)
+		}
+	}()
+}
