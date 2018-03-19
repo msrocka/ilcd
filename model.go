@@ -41,10 +41,11 @@ func (m *Model) FullName(lang string) string {
 // ProcessInstance describes a process reference together with its connections
 // in a life cycle model.
 type ProcessInstance struct {
-	InternalID  int                 `xml:"dataSetInternalID,attr"`
-	Process     *Ref                `xml:"referenceToProcess"`
-	Connections []ProcessConnection `xml:"connections>outputExchange"`
-	Parameters  []ModelParameter    `xml:"parameters>parameter"`
+	InternalID    int                 `xml:"dataSetInternalID,attr"`
+	Process       *Ref                `xml:"referenceToProcess"`
+	ScalingFactor *float64            `xml:"scalingFactor,omitempty"`
+	Connections   []ProcessConnection `xml:"connections>outputExchange"`
+	Parameters    []ModelParameter    `xml:"parameters>parameter"`
 }
 
 // ProcessConnection describes a connection between two processes in a life
@@ -68,4 +69,47 @@ type DownstreamLink struct {
 type ModelParameter struct {
 	Name  string  `xml:"name,attr"`
 	Value float64 `xml:",chardata"`
+}
+
+// RefProcess returns the reference process (instance) of the life cycle model.
+func (m *Model) RefProcess() *ProcessInstance {
+	if m == nil || m.QRef == nil {
+		return nil
+	}
+	id := *m.QRef
+	for i := range m.Processes {
+		if m.Processes[i].InternalID == id {
+			return &m.Processes[i]
+		}
+	}
+	return nil
+}
+
+// FindProviders searches for the processes that are linked to the inputs of
+// the given process in the life cycle model.
+//
+// In the eILCD format, the output (downstream) connections of a process are
+// stored. This method searches for connections in the other (upstream)
+// direction: processes that provide an input to the given process.
+func (m *Model) FindProviders(pi *ProcessInstance) []*ProcessInstance {
+	if m == nil || pi == nil {
+		return nil
+	}
+	var providers []*ProcessInstance
+each_process:
+	for i := range m.Processes {
+		candidate := &m.Processes[i]
+		if candidate.InternalID == pi.InternalID {
+			continue
+		}
+		for _, con := range candidate.Connections {
+			for _, link := range con.Links {
+				if link.ProcessID == pi.InternalID {
+					providers = append(providers, candidate)
+					continue each_process
+				}
+			}
+		}
+	}
+	return providers
 }
