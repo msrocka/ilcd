@@ -1,8 +1,21 @@
 package ilcd
 
 import (
+	"regexp"
 	"strings"
 )
+
+var uuidRegex *regexp.Regexp
+
+// FindUUID returns the UUID from the given path or an empty string if it cannot
+// find it.
+func FindUUID(path string) string {
+	if uuidRegex == nil {
+		pattern := "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+		uuidRegex = regexp.MustCompile(pattern)
+	}
+	return uuidRegex.FindString(path)
+}
 
 // IsModelPath returns true if the given file path or zip entry name is
 // probably a life cycle model data set (of the extended ILCD format).
