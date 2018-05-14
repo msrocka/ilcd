@@ -193,7 +193,11 @@ func (r *ZipReader) EachContact(fn func(*Contact) bool) error {
 func (r *ZipReader) EachFile(fn func(f *ZipFile) bool) {
 	files := r.r.File
 	for i := range files {
-		zf := newZipFile(files[i])
+		file := files[i]
+		if file.FileInfo().IsDir() {
+			continue
+		}
+		zf := newZipFile(file)
 		if !fn(zf) {
 			break
 		}
