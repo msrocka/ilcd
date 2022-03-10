@@ -41,11 +41,12 @@ func (m *Model) FullName(lang string) string {
 // ProcessInstance describes a process reference together with its connections
 // in a life cycle model.
 type ProcessInstance struct {
-	InternalID    int                 `xml:"dataSetInternalID,attr"`
-	Process       *Ref                `xml:"referenceToProcess"`
-	ScalingFactor *float64            `xml:"scalingFactor,omitempty"`
-	Connections   []ProcessConnection `xml:"connections>outputExchange"`
-	Parameters    []ModelParameter    `xml:"parameters>parameter"`
+	InternalID           int                 `xml:"dataSetInternalID,attr"`
+	MultiplicationFactor float64             `xml:"multiplicationFactor,attr"`
+	Process              *Ref                `xml:"referenceToProcess"`
+	ScalingFactor        *float64            `xml:"scalingFactor,omitempty"`
+	Connections          []ProcessConnection `xml:"connections>outputExchange"`
+	Parameters           []ModelParameter    `xml:"parameters>parameter"`
 }
 
 // ProcessConnection describes a connection between two processes in a life
