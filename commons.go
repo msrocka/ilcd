@@ -22,6 +22,20 @@ func (ls LangString) Get(lang string) string {
 	return ""
 }
 
+// Default returns the default value of a multi-language string which is the
+// English string (code = "en") or the first string in the list.
+func (ls LangString) Default() string {
+	if len(ls) == 0 {
+		return ""
+	}
+	for _, item := range ls {
+		if item.Lang == "en" {
+			return item.Value
+		}
+	}
+	return ls[0].Value
+}
+
 // Ref is a data set reference to an ILCD data set.
 type Ref struct {
 	UUID    string     `xml:"refObjectId,attr"`
