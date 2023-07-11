@@ -1,3 +1,3 @@
-module github.com/msrocka/eilcd
+module github.com/msrocka/ilcd
 
 go 1.17
