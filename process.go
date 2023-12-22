@@ -12,6 +12,7 @@ type Process struct {
 	QRefs       []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
 	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
 	Parameters  []Parameter        `xml:"processInformation>mathematicalRelations>variableParameter"`
+	Modelling   *ProcessModelling  `xml:"modellingAndValidation"`
 	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
 	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 	Exchanges   []Exchange         `xml:"exchanges>exchange"`
