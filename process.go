@@ -7,7 +7,9 @@ import (
 
 // Process represents an ILCD process data set
 type Process struct {
-	XMLName     xml.Name           `xml:"processDataSet"`
+	XMLName          xml.Name `xml:"http://lca.jrc.it/ILCD/Process processDataSet"`
+	EpdFormatVersion string   `xml:"http://www.indata.network/EPD/2019 epd-version,attr"`
+
 	Info        *ProcessInfo       `xml:"processInformation>dataSetInformation"`
 	QRefs       []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
 	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
@@ -91,7 +93,7 @@ func (p *Process) RefFlows() []*Exchange {
 
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
-	UUID            string           `xml:"UUID"`
+	UUID            string           `xml:"http://lca.jrc.it/ILCD/Common UUID"`
 	Name            *ProcessName     `xml:"name"`
 	Synonyms        LangString       `xml:"synonyms"`
 	Classifications []Classification `xml:"classificationInformation>classification"`

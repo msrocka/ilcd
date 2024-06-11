@@ -1,5 +1,7 @@
 package ilcd
 
+import "encoding/xml"
+
 // LangString is an ILCD multi-language string
 type LangString []LangStringItem
 
@@ -75,8 +77,9 @@ func (ref *Ref) DataSetType() DataSetType {
 
 // Classification describes an ILCD classification entry in a data set
 type Classification struct {
-	Name    string  `xml:"name,attr"`
-	Classes []Class `xml:"class"`
+	XMLName xml.Name `xml:"http://lca.jrc.it/ILCD/Common classification"`
+	Name    string   `xml:"name,attr"`
+	Classes []Class  `xml:"class"`
 }
 
 // GetClass returns the class with the given level from the classification.
