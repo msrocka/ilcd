@@ -10,14 +10,15 @@ type Process struct {
 	XMLName          xml.Name `xml:"http://lca.jrc.it/ILCD/Process processDataSet"`
 	EpdFormatVersion string   `xml:"http://www.indata.network/EPD/2019 epd-version,attr"`
 
-	Info        *ProcessInfo       `xml:"processInformation>dataSetInformation"`
-	QRefs       []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
-	Location    *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
-	Parameters  []Parameter        `xml:"processInformation>mathematicalRelations>variableParameter"`
-	Modelling   *ProcessModelling  `xml:"modellingAndValidation"`
-	DataEntry   *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
-	Publication *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
-	Exchanges   []Exchange         `xml:"exchanges>exchange"`
+	Info          *ProcessInfo       `xml:"processInformation>dataSetInformation"`
+	QRefs         []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
+	Location      *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
+	Parameters    []Parameter        `xml:"processInformation>mathematicalRelations>variableParameter"`
+	Modelling     *ProcessModelling  `xml:"modellingAndValidation"`
+	DataEntry     *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
+	Publication   *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
+	Exchanges     []Exchange         `xml:"exchanges>exchange"`
+	ImpactResults []ImpactResult     `xml:"LCIAResults>LCIAResult"`
 }
 
 // UUID returns the UUID of the data set.
@@ -93,11 +94,12 @@ func (p *Process) RefFlows() []*Exchange {
 
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
-	UUID            string           `xml:"http://lca.jrc.it/ILCD/Common UUID"`
-	Name            *ProcessName     `xml:"name"`
-	Synonyms        LangString       `xml:"synonyms"`
-	Classifications []Classification `xml:"classificationInformation>classification"`
-	Comment         LangString       `xml:"generalComment"`
+	UUID            string            `xml:"http://lca.jrc.it/ILCD/Common UUID"`
+	Name            *ProcessName      `xml:"name"`
+	Synonyms        LangString        `xml:"synonyms"`
+	Classifications []Classification  `xml:"classificationInformation>classification"`
+	Comment         LangString        `xml:"generalComment"`
+	EpdExtension    *EpdInfoExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
 
 // ProcessName contains the name fields of a process.
@@ -130,11 +132,19 @@ type Parameter struct {
 // the exchange has no reference to a variable. Otherwise the ResultingAmount
 // is calculated via the formula: ResultingAmount = MeanAmount * Variable.
 type Exchange struct {
-	InternalID      int     `xml:"dataSetInternalID,attr"`
-	Flow            *Ref    `xml:"referenceToFlowDataSet"`
-	Direction       string  `xml:"exchangeDirection"`
-	MeanAmount      float64 `xml:"meanAmount"`
-	Variable        string  `xml:"referenceToVariable,omitempty"`
-	ResultingAmount float64 `xml:"resultingAmount"`
-	Location        string  `xml:"location"`
+	InternalID      int                 `xml:"dataSetInternalID,attr"`
+	Flow            *Ref                `xml:"referenceToFlowDataSet"`
+	Direction       string              `xml:"exchangeDirection"`
+	MeanAmount      float64             `xml:"meanAmount"`
+	Variable        string              `xml:"referenceToVariable,omitempty"`
+	ResultingAmount float64             `xml:"resultingAmount"`
+	Location        string              `xml:"location"`
+	EpdExtension    *EpdResultExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
+}
+
+type ImpactResult struct {
+	Method       *Ref                `xml:"referenceToLCIAMethodDataSet"`
+	MeanAmount   float64             `xml:"meanAmount"`
+	Comment      LangString          `xml:"generalComment"`
+	EpdExtension *EpdResultExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
