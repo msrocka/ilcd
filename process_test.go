@@ -40,7 +40,7 @@ func TestProcessRefFlows(t *testing.T) {
 
 func TestProcessParameters(t *testing.T) {
 	p, _ := ReadProcessFile("sample_data/process.xml")
-	params := p.Parameters
+	params := p.MathModel.Parameters
 	if len(params) != 1 {
 		t.Fatal("There should be a parameter in the example process")
 	}

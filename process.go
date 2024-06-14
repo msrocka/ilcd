@@ -11,9 +11,10 @@ type Process struct {
 	EpdFormatVersion string   `xml:"http://www.indata.network/EPD/2019 epd-version,attr"`
 
 	Info          *ProcessInfo       `xml:"processInformation>dataSetInformation"`
-	QRefs         []int              `xml:"processInformation>quantitativeReference>referenceToReferenceFlow"`
+	QuantRef      *ProcessQuantRef   `xml:"processInformation>quantitativeReference"`
+	Time          *ProcessTime       `xml:"processInformation>time"`
 	Location      *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
-	Parameters    []Parameter        `xml:"processInformation>mathematicalRelations>variableParameter"`
+	MathModel     *ProcessMathModel  `xml:"processInformation>mathematicalRelations"`
 	Modelling     *ProcessModelling  `xml:"modellingAndValidation"`
 	DataEntry     *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
 	Publication   *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
@@ -72,19 +73,19 @@ func (name *ProcessName) concat(lang string) string {
 // RefFlows returns the exchanges that are defined as quantitative refeferences
 // of the process. In most cases this should be just one exchange.
 func (p *Process) RefFlows() []*Exchange {
-	if len(p.QRefs) == 0 {
+	if p.QuantRef == nil || len(p.QuantRef.RefFlows) == 0 {
 		return nil
 	}
 	n := 0
 	var refs []*Exchange
 	for _, e := range p.Exchanges {
-		for _, id := range p.QRefs {
+		for _, id := range p.QuantRef.RefFlows {
 			if id != e.InternalID {
 				continue
 			}
 			refs = append(refs, &e)
 			n++
-			if n >= len(p.QRefs) {
+			if n >= len(p.QuantRef.RefFlows) {
 				return refs
 			}
 		}
@@ -94,13 +95,13 @@ func (p *Process) RefFlows() []*Exchange {
 
 // ProcessInfo contains the general process information
 type ProcessInfo struct {
-	UUID            string            `xml:"http://lca.jrc.it/ILCD/Common UUID"`
-	Name            *ProcessName      `xml:"name"`
-	Synonyms        LangString        `xml:"synonyms"`
-	Classifications []Classification  `xml:"classificationInformation>classification"`
-	Comment         LangString        `xml:"http://lca.jrc.it/ILCD/Common generalComment"`
-	ExternalDocs    []Ref             `xml:"referenceToExternalDocumentation"`
-	EpdExtension    *EpdInfoExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
+	UUID            string           `xml:"http://lca.jrc.it/ILCD/Common UUID"`
+	Name            *ProcessName     `xml:"name"`
+	Synonyms        LangString       `xml:"synonyms"`
+	Classifications []Classification `xml:"classificationInformation>classification"`
+	Comment         LangString       `xml:"http://lca.jrc.it/ILCD/Common generalComment"`
+	ExternalDocs    []Ref            `xml:"referenceToExternalDocumentation"`
+	EpdExt          *EpdInfoExt      `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
 
 // ProcessName contains the name fields of a process.
@@ -111,11 +112,35 @@ type ProcessName struct {
 	Properties     LangString `xml:"functionalUnitFlowProperties"`
 }
 
+// ProcessQuantRef contains the quantitative reference information of a process.
+type ProcessQuantRef struct {
+	Type     string `xml:"type,attr,omitempty"`
+	RefFlows []int  `xml:"referenceToReferenceFlow"`
+}
+
+type ProcessTime struct {
+	ReferenceYear *int        `xml:"http://lca.jrc.it/ILCD/Common referenceYear"`
+	ValidUntil    *int        `xml:"http://lca.jrc.it/ILCD/Common dataSetValidUntil"`
+	EpdExt        *EpdTimeExt `xml:"http://lca.jrc.it/ILCD/Common other"`
+}
+
 // ProcessLocation contains the information of a process location.
 type ProcessLocation struct {
-	Code        string     `xml:"location,attr"`
-	LatLong     string     `xml:"latitudeAndLongitude,attr"`
+	Code        string     `xml:"location,attr,omitempty"`
+	LatLong     string     `xml:"latitudeAndLongitude,attr,omitempty"`
 	Description LangString `xml:"descriptionOfRestrictions"`
+}
+
+type ProcessTech struct {
+	Description   LangString `xml:"technologyDescriptionAndIncludedProcesses"`
+	Applicability LangString `xml:"technologicalApplicability"`
+	Pictogramme   *Ref       `xml:"referenceToTechnologyPictogramme"`
+	FlowDiagrams  []Ref      `xml:"referenceToTechnologyFlowDiagrammOrPicture"`
+}
+
+type ProcessMathModel struct {
+	Description LangString  `xml:"modelDescription"`
+	Parameters  []Parameter `xml:"variableParameter"`
 }
 
 // Parameter contains the information of a process parameter or variable under
@@ -133,19 +158,19 @@ type Parameter struct {
 // the exchange has no reference to a variable. Otherwise the ResultingAmount
 // is calculated via the formula: ResultingAmount = MeanAmount * Variable.
 type Exchange struct {
-	InternalID      int                 `xml:"dataSetInternalID,attr"`
-	Flow            *Ref                `xml:"referenceToFlowDataSet"`
-	Direction       string              `xml:"exchangeDirection"`
-	MeanAmount      float64             `xml:"meanAmount"`
-	Variable        string              `xml:"referenceToVariable,omitempty"`
-	ResultingAmount float64             `xml:"resultingAmount"`
-	Location        string              `xml:"location"`
-	EpdExtension    *EpdResultExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
+	InternalID      int           `xml:"dataSetInternalID,attr"`
+	Flow            *Ref          `xml:"referenceToFlowDataSet"`
+	Direction       string        `xml:"exchangeDirection"`
+	MeanAmount      float64       `xml:"meanAmount"`
+	Variable        string        `xml:"referenceToVariable,omitempty"`
+	ResultingAmount float64       `xml:"resultingAmount"`
+	Location        string        `xml:"location"`
+	EpdExt          *EpdResultExt `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
 
 type ImpactResult struct {
-	Method       *Ref                `xml:"referenceToLCIAMethodDataSet"`
-	MeanAmount   float64             `xml:"meanAmount"`
-	Comment      LangString          `xml:"generalComment"`
-	EpdExtension *EpdResultExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
+	Method     *Ref          `xml:"referenceToLCIAMethodDataSet"`
+	MeanAmount float64       `xml:"meanAmount"`
+	Comment    LangString    `xml:"generalComment"`
+	EpdExt     *EpdResultExt `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
