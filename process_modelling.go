@@ -1,9 +1,24 @@
 package ilcd
 
 type ProcessModelling struct {
+	InventoryMethod        *ProcessInventoryMethod `xml:"LCIMethodAndAllocation"`
+	DataSources            *ProcessSources         `xml:"dataSourcesTreatmentAndRepresentativeness"`
 	Completeness           *Completeness           `xml:"completeness"`
 	Reviews                []Review                `xml:"validation>review"`
 	ComplianceDeclarations []ComplianceDeclaration `xml:"complianceDeclarations>compliance"`
+}
+
+type ProcessInventoryMethod struct {
+	Type          string                 `xml:"typeOfDataSet"`
+	MethodReports []Ref                  `xml:"referenceToLCAMethodDetails"`
+	EpdExt        *EpdInventoryMethodExt `xml:"http://lca.jrc.it/ILCD/Common other"`
+}
+
+type ProcessSources struct {
+	DataHandling []Ref          `xml:"referenceToDataHandlingPrinciples"`
+	DataSources  []Ref          `xml:"referenceToDataSource"`
+	UseAdvice    LangString     `xml:"useAdviceForDataSet"`
+	EpdExt       *EpdSourcesExt `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
 
 type Completeness struct {
@@ -22,10 +37,10 @@ type Review struct {
 	Type                  string                 `xml:"type,attr"`
 	Scopes                []ReviewScope          `xml:"scope"`
 	DataQualityIndicators []DataQualityIndicator `xml:"dataQualityIndicator"`
-	ReviewDetails         *LangString            `xml:"reviewDetails"`
-	Reviewers             []Ref                  `xml:"referenceToNameOfReviewerAndInstitution"`
-	OtherDetails          *LangString            `xml:"otherReviewDetails"`
-	ReviewReport          *Ref                   `xml:"referenceToCompleteReviewReport"`
+	ReviewDetails         LangString             `xml:"reviewDetails"`
+	Reviewers             []Ref                  `xml:"http://lca.jrc.it/ILCD/Common referenceToNameOfReviewerAndInstitution"`
+	OtherDetails          LangString             `xml:"otherReviewDetails"`
+	ReviewReport          *Ref                   `xml:"http://lca.jrc.it/ILCD/Common referenceToCompleteReviewReport"`
 }
 
 type ReviewScope struct {

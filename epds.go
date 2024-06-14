@@ -30,6 +30,14 @@ type EpdTimeExt struct {
 	PublicationDate string `xml:"http://www.indata.network/EPD/2019 publicationDateOfEPD"`
 }
 
+type EpdInventoryMethodExt struct {
+	EpdType string `xml:"http://www.iai.kit.edu/EPD/2013 subType"`
+}
+
+type EpdSourcesExt struct {
+	OriginalEpds []Ref `xml:"referenceToOriginalEPD"`
+}
+
 type EpdResultExt struct {
 	Values    []EpdValue `xml:"http://www.iai.kit.edu/EPD/2013 amount"`
 	UnitGroup *Ref       `xml:"http://www.iai.kit.edu/EPD/2013 referenceToUnitGroupDataSet"`

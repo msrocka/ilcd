@@ -10,12 +10,14 @@ type Process struct {
 	XMLName          xml.Name `xml:"http://lca.jrc.it/ILCD/Process processDataSet"`
 	EpdFormatVersion string   `xml:"http://www.indata.network/EPD/2019 epd-version,attr"`
 
-	Info          *ProcessInfo       `xml:"processInformation>dataSetInformation"`
-	QuantRef      *ProcessQuantRef   `xml:"processInformation>quantitativeReference"`
-	Time          *ProcessTime       `xml:"processInformation>time"`
-	Location      *ProcessLocation   `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
-	MathModel     *ProcessMathModel  `xml:"processInformation>mathematicalRelations"`
-	Modelling     *ProcessModelling  `xml:"modellingAndValidation"`
+	Info      *ProcessInfo      `xml:"processInformation>dataSetInformation"`
+	QuantRef  *ProcessQuantRef  `xml:"processInformation>quantitativeReference"`
+	Time      *ProcessTime      `xml:"processInformation>time"`
+	Location  *ProcessLocation  `xml:"processInformation>geography>locationOfOperationSupplyOrProduction"`
+	Tech      *ProcessTech      `xml:"processInformation>technology"`
+	MathModel *ProcessMathModel `xml:"processInformation>mathematicalRelations"`
+	Modelling *ProcessModelling `xml:"modellingAndValidation"`
+
 	DataEntry     *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
 	Publication   *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
 	Exchanges     []Exchange         `xml:"exchanges>exchange"`
