@@ -98,7 +98,8 @@ type ProcessInfo struct {
 	Name            *ProcessName      `xml:"name"`
 	Synonyms        LangString        `xml:"synonyms"`
 	Classifications []Classification  `xml:"classificationInformation>classification"`
-	Comment         LangString        `xml:"generalComment"`
+	Comment         LangString        `xml:"http://lca.jrc.it/ILCD/Common generalComment"`
+	ExternalDocs    []Ref             `xml:"referenceToExternalDocumentation"`
 	EpdExtension    *EpdInfoExtension `xml:"http://lca.jrc.it/ILCD/Common other"`
 }
 

@@ -8,7 +8,7 @@ type LangString []LangStringItem
 // LangStringItem represents an item in an ILCD multi-language string
 type LangStringItem struct {
 	Value string `xml:",chardata"`
-	Lang  string `xml:"lang,attr"`
+	Lang  string `xml:"http://www.w3.org/XML/1998/namespace lang,attr,omitempty"`
 }
 
 // Get returns the value for the given language code
@@ -42,9 +42,9 @@ func (ls LangString) Default() string {
 type Ref struct {
 	UUID    string     `xml:"refObjectId,attr"`
 	Type    string     `xml:"type,attr"`
-	URI     string     `xml:"uri,attr"`
-	Version string     `xml:"version,attr"`
-	Name    LangString `xml:"shortDescription"`
+	URI     string     `xml:"uri,attr,omitempty"`
+	Version string     `xml:"version,attr,omitempty"`
+	Name    LangString `xml:"http://lca.jrc.it/ILCD/Common shortDescription"`
 }
 
 // DataSetType returns the type of the data set referenced as defined in the ILCD
@@ -78,7 +78,7 @@ func (ref *Ref) DataSetType() DataSetType {
 // Classification describes an ILCD classification entry in a data set
 type Classification struct {
 	XMLName xml.Name `xml:"http://lca.jrc.it/ILCD/Common classification"`
-	Name    string   `xml:"name,attr"`
+	Name    string   `xml:"name,attr,omitempty"`
 	Classes []Class  `xml:"class"`
 }
 
@@ -98,7 +98,7 @@ func (c *Classification) GetClass(level int) *Class {
 // Class is a category in an ILCD data set classification.
 type Class struct {
 	Level int    `xml:"level,attr"`
-	ID    string `xml:"classId1,attr"`
+	ID    string `xml:"classId,attr,omitempty"`
 	Name  string `xml:",chardata"`
 }
 
