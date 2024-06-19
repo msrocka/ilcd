@@ -24,3 +24,11 @@ func TestContactTime(t *testing.T) {
 		t.Fatal("wrong time")
 	}
 }
+
+func TestEmptyName(t *testing.T) {
+	p := &Process{Info: &ProcessInfo{Name: &ProcessName{}}}
+	name := p.Info.Name.BaseName.Default()
+	if name != "" {
+		t.Fatal("empty name expected")
+	}
+}
