@@ -25,6 +25,9 @@ func (r *ZipReader) Close() error {
 // uuid and returns the corresponding zip file. If nothing is found, it returns
 // nil.
 func (r *ZipReader) FindDataSet(dsType DataSetType, uuid string) *ZipFile {
+	if r == nil {
+		return nil
+	}
 	dsFolder := dsType.Folder()
 	files := r.r.File
 	for i := range files {
@@ -41,6 +44,70 @@ func (r *ZipReader) FindDataSet(dsType DataSetType, uuid string) *ZipFile {
 		}
 	}
 	return nil
+}
+
+func (r *ZipReader) ReadSource(uuid string) (*Source, error) {
+	entry := r.FindDataSet(SourceDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadSource()
+}
+
+func (r *ZipReader) ReadContact(uuid string) (*Contact, error) {
+	entry := r.FindDataSet(ContactDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadContact()
+}
+
+func (r *ZipReader) ReadUnitGroup(uuid string) (*UnitGroup, error) {
+	entry := r.FindDataSet(UnitGroupDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadUnitGroup()
+}
+
+func (r *ZipReader) ReadFlowProperty(uuid string) (*FlowProperty, error) {
+	entry := r.FindDataSet(FlowPropertyDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadFlowProperty()
+}
+
+func (r *ZipReader) ReadFlow(uuid string) (*Flow, error) {
+	entry := r.FindDataSet(FlowDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadFlow()
+}
+
+func (r *ZipReader) ReadProcess(uuid string) (*Process, error) {
+	entry := r.FindDataSet(ProcessDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadProcess()
+}
+
+func (r *ZipReader) ReadModel(uuid string) (*Model, error) {
+	entry := r.FindDataSet(ModelDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadModel()
+}
+
+func (r *ZipReader) ReadMethod(uuid string) (*Method, error) {
+	entry := r.FindDataSet(MethodDataSet, uuid)
+	if entry == nil {
+		return nil, ErrDataSetNotFound
+	}
+	return entry.ReadMethod()
 }
 
 // EachModel iterates over each life cycle model in the package unless

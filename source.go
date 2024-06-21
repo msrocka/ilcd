@@ -33,4 +33,9 @@ type SourceInfo struct {
 	Classifications []Classification `xml:"classificationInformation>classification"`
 	Citation        string           `xml:"sourceCitation,omitempty"`
 	PublicationType string           `xml:"publicationType,omitempty"`
+	FileRefs        []SourceFileRef  `xml:"referenceToDigitalFile"`
+}
+
+type SourceFileRef struct {
+	URI string `xml:"uri,attr,omitempty"`
 }
