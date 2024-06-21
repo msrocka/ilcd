@@ -18,10 +18,10 @@ type Process struct {
 	MathModel *ProcessMathModel `xml:"processInformation>mathematicalRelations"`
 	Modelling *ProcessModelling `xml:"modellingAndValidation"`
 
-	DataEntry     *CommonDataEntry   `xml:"administrativeInformation>dataEntryBy"`
-	Publication   *CommonPublication `xml:"administrativeInformation>publicationAndOwnership"`
-	Exchanges     []Exchange         `xml:"exchanges>exchange"`
-	ImpactResults []ImpactResult     `xml:"LCIAResults>LCIAResult"`
+	DataEntry     *CommonDataEntry    `xml:"administrativeInformation>dataEntryBy"`
+	Publication   *ProcessPublication `xml:"administrativeInformation>publicationAndOwnership"`
+	Exchanges     []Exchange          `xml:"exchanges>exchange"`
+	ImpactResults []ImpactResult      `xml:"LCIAResults>LCIAResult"`
 }
 
 // UUID returns the UUID of the data set.
@@ -175,4 +175,21 @@ type ImpactResult struct {
 	MeanAmount float64       `xml:"meanAmount"`
 	Comment    LangString    `xml:"generalComment"`
 	EpdExt     *EpdResultExt `xml:"http://lca.jrc.it/ILCD/Common other"`
+}
+
+type ProcessPublication struct {
+	LastRevision          string             `xml:"http://lca.jrc.it/ILCD/Common dateOfLastRevision"`
+	Version               string             `xml:"http://lca.jrc.it/ILCD/Common dataSetVersion"`
+	PrecedingVersions     []Ref              `xml:"http://lca.jrc.it/ILCD/Common referenceToPrecedingDataSetVersion"`
+	URI                   string             `xml:"http://lca.jrc.it/ILCD/Common permanentDataSetURI"`
+	Status                string             `xml:"http://lca.jrc.it/ILCD/Common workflowAndPublicationStatus"`
+	Republication         *Ref               `xml:"http://lca.jrc.it/ILCD/Common referenceToUnchangedRepublication"`
+	RegistrationAuthority *Ref               `xml:"http://lca.jrc.it/ILCD/Common referenceToRegistrationAuthority"`
+	RegistrationNumber    string             `xml:"http://lca.jrc.it/ILCD/Common registrationNumber"`
+	Owner                 *Ref               `xml:"http://lca.jrc.it/ILCD/Common referenceToOwnershipOfDataSet"`
+	CopyrightProtected    *bool              `xml:"http://lca.jrc.it/ILCD/Common copyright"`
+	ExclusiveAccess       []Ref              `xml:"http://lca.jrc.it/ILCD/Common referenceToEntitiesWithExclusiveAccess"`
+	LicenseType           string             `xml:"http://lca.jrc.it/ILCD/Common licenseType"`
+	AccessRestrictions    LangString         `xml:"http://lca.jrc.it/ILCD/Common accessRestrictions"`
+	EpdExt                *EpdPublicationExt `xml:"http://lca.jrc.it/ILCD/Common other"`
 }

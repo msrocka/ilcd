@@ -48,3 +48,7 @@ type EpdValue struct {
 	Module   string   `xml:"module,attr,omitempty"`
 	Scenario string   `xml:"scenario,attr,omitempty"`
 }
+
+type EpdPublicationExt struct {
+	Publishers []Ref `xml:"http://www.indata.network/EPD/2019 referenceToPublisher"`
+}

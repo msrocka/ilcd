@@ -104,12 +104,14 @@ type Class struct {
 
 // CommonDataEntry <dataEntryBy>
 type CommonDataEntry struct {
-	TimeStamp   string `xml:"timeStamp"`
-	DataFormats []Ref  `xml:"referenceToDataSetFormat"`
+	TimeStamp   string `xml:"http://lca.jrc.it/ILCD/Common timeStamp"`
+	DataFormats []Ref  `xml:"http://lca.jrc.it/ILCD/Common referenceToDataSetFormat"`
 }
 
 // CommonPublication <publicationAndOwnership>
 type CommonPublication struct {
-	Version string `xml:"dataSetVersion"`
-	URI     string `xml:"permanentDataSetURI"`
+	Version           string `xml:"http://lca.jrc.it/ILCD/Common dataSetVersion"`
+	PrecedingVersions []Ref  `xml:"http://lca.jrc.it/ILCD/Common referenceToPrecedingDataSetVersion"`
+	URI               string `xml:"http://lca.jrc.it/ILCD/Common permanentDataSetURI"`
+	Owner             *Ref   `xml:"http://lca.jrc.it/ILCD/Common referenceToOwnershipOfDataSet"`
 }
