@@ -2,306 +2,170 @@ package ilcd
 
 import (
 	"archive/zip"
-	"strings"
+	"fmt"
+	"io"
 )
 
-// ZipReader can read data sets from ILCD packages.
+type zipFile struct {
+	f      *zip.File
+	uuid   string
+	dsType DataSetType
+}
+
+func newZipFile(f *zip.File) *zipFile {
+	path := xmlPathOf(f.Name)
+	if path == nil {
+		return &zipFile{f, "", Asset}
+	} else {
+		return &zipFile{f, path.uuid, path.dsType}
+	}
+}
+
+func (f *zipFile) String() string {
+	return f.f.Name
+}
+
 type ZipReader struct {
 	r *zip.ReadCloser
 }
 
-// NewZipReader creates a new package reader.
 func NewZipReader(filePath string) (*ZipReader, error) {
 	r, err := zip.OpenReader(filePath)
 	return &ZipReader{r: r}, err
 }
 
-// Close closes the pack reader.
 func (r *ZipReader) Close() error {
 	return r.r.Close()
 }
 
-// FindDataSet searches for a data set of the give type and with the given
-// uuid and returns the corresponding zip file. If nothing is found, it returns
-// nil.
-func (r *ZipReader) FindDataSet(dsType DataSetType, uuid string) *ZipFile {
-	if r == nil {
-		return nil
-	}
-	dsFolder := dsType.Folder()
-	files := r.r.File
-	for i := range files {
-		f := files[i]
-		path := strings.ToLower(f.Name)
-		if !strings.Contains(path, dsFolder) {
-			continue
-		}
-		if !strings.HasSuffix(path, ".xml") {
-			continue
-		}
-		if strings.Contains(path, uuid) {
-			return newZipFile(f)
-		}
-	}
-	return nil
-}
-
 func (r *ZipReader) ReadSource(uuid string) (*Source, error) {
-	entry := r.FindDataSet(SourceDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadSource()
+	return findParseZipEntry(r, SourceDataSet, uuid, ReadSource)
 }
 
 func (r *ZipReader) ReadContact(uuid string) (*Contact, error) {
-	entry := r.FindDataSet(ContactDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadContact()
+	return findParseZipEntry(r, ContactDataSet, uuid, ReadContact)
 }
 
 func (r *ZipReader) ReadUnitGroup(uuid string) (*UnitGroup, error) {
-	entry := r.FindDataSet(UnitGroupDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadUnitGroup()
+	return findParseZipEntry(r, UnitGroupDataSet, uuid, ReadUnitGroup)
 }
 
 func (r *ZipReader) ReadFlowProperty(uuid string) (*FlowProperty, error) {
-	entry := r.FindDataSet(FlowPropertyDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadFlowProperty()
+	return findParseZipEntry(r, FlowPropertyDataSet, uuid, ReadFlowProperty)
 }
 
 func (r *ZipReader) ReadFlow(uuid string) (*Flow, error) {
-	entry := r.FindDataSet(FlowDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadFlow()
+	return findParseZipEntry(r, FlowDataSet, uuid, ReadFlow)
 }
 
 func (r *ZipReader) ReadProcess(uuid string) (*Process, error) {
-	entry := r.FindDataSet(ProcessDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadProcess()
+	return findParseZipEntry(r, ProcessDataSet, uuid, ReadProcess)
 }
 
 func (r *ZipReader) ReadModel(uuid string) (*Model, error) {
-	entry := r.FindDataSet(ModelDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadModel()
+	return findParseZipEntry(r, ModelDataSet, uuid, ReadModel)
 }
 
 func (r *ZipReader) ReadMethod(uuid string) (*Method, error) {
-	entry := r.FindDataSet(MethodDataSet, uuid)
-	if entry == nil {
-		return nil, ErrDataSetNotFound
-	}
-	return entry.ReadMethod()
+	return findParseZipEntry(r, MethodDataSet, uuid, ReadMethod)
 }
 
-// EachModel iterates over each life cycle model in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachModel(fn func(*Model) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsModelPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadModel()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, ModelDataSet, ReadModel, fn)
 }
 
-// EachMethod iterates over each Method data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachMethod(fn func(*Method) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsMethodPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadMethod()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, MethodDataSet, ReadMethod, fn)
 }
 
-// EachProcess iterates over each Process data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachProcess(fn func(*Process) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsProcessPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadProcess()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, ProcessDataSet, ReadProcess, fn)
 }
 
-// EachFlow iterates over each Flow data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachFlow(fn func(*Flow) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsFlowPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadFlow()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, FlowDataSet, ReadFlow, fn)
 }
 
-// EachFlowProperty iterates over each FlowProperty data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachFlowProperty(fn func(*FlowProperty) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsFlowPropertyPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadFlowProperty()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, FlowPropertyDataSet, ReadFlowProperty, fn)
 }
 
-// EachUnitGroup iterates over each UnitGroup data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachUnitGroup(fn func(*UnitGroup) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsUnitGroupPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadUnitGroup()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, UnitGroupDataSet, ReadUnitGroup, fn)
 }
 
-// EachSource iterates over each Source data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachSource(fn func(*Source) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsSourcePath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadSource()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, SourceDataSet, ReadSource, fn)
 }
 
-// EachContact iterates over each Contact data set in the package unless
-// the given handler returns false.
 func (r *ZipReader) EachContact(fn func(*Contact) bool) error {
-	var gerr error
-	r.EachFile(func(f *ZipFile) bool {
-		if !IsContactPath(f.Path()) {
-			return true
-		}
-		val, err := f.ReadContact()
-		if err != nil {
-			gerr = err
-			return false
-		}
-		return fn(val)
-	})
-	return gerr
+	return parseEachZipEntry(r, ContactDataSet, ReadContact, fn)
 }
 
-// EachFile calls the given function for each file in the zip package. It stops
-// when the function returns false or when there are no more files in the
-// package.
-func (r *ZipReader) EachFile(fn func(f *ZipFile) bool) {
+func findParseZipEntry[T any](
+	r *ZipReader,
+	dsType DataSetType,
+	uuid string,
+	parser func([]byte) (*T, error),
+) (*T, error) {
+	files := r.r.File
+	for i := range files {
+		zf := newZipFile(files[i])
+		if zf.dsType == dsType && zf.uuid == uuid {
+			return parseZipEntry(zf, parser)
+		}
+	}
+	return nil, ErrDataSetNotFound
+}
+
+func parseEachZipEntry[T any](
+	r *ZipReader,
+	dsType DataSetType,
+	parser func([]byte) (*T, error),
+	callback func(*T) bool,
+) error {
+
 	files := r.r.File
 	for i := range files {
 		file := files[i]
 		if file.FileInfo().IsDir() {
 			continue
 		}
-		zf := newZipFile(file)
-		if !fn(zf) {
+		entry := newZipFile(file)
+		if entry.dsType != dsType {
+			continue
+		}
+
+		dataSet, err := parseZipEntry(entry, parser)
+		if err != nil {
+			return err
+		}
+
+		if !callback(dataSet) {
 			break
 		}
 	}
+	return nil
 }
 
-type zDataEntry struct {
-	path string
-	data []byte
-}
+func parseZipEntry[T any](
+	entry *zipFile, parser func([]byte) (*T, error),
+) (*T, error) {
 
-// Map applies the given function to all entries in the zip file and writes
-// the function's output to the given writer.
-//
-// The result of a function call is the path and the data that should be written
-// to the writer. If the path or data are empty, nothing will be written. The
-// given function is executed in a separate Go routine.
-func (r *ZipReader) Map(w *ZipWriter, fn func(file *ZipFile) (string, []byte)) {
-	if w == nil {
-		return
+	reader, err := entry.f.Open()
+	if err != nil {
+		return nil, fmt.Errorf("failed to open %s: %w", entry, err)
 	}
-	c := make(chan *zDataEntry)
-	go func() {
-		r.EachFile(func(zf *ZipFile) bool {
-			path, data := fn(zf)
-			if path != "" && len(data) > 0 {
-				c <- &zDataEntry{path, data}
-			}
-			return true
-		})
-		close(c)
-	}()
-	for {
-		entry, more := <-c
-		if !more {
-			break
-		}
-		w.Write(entry.path, entry.data)
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		reader.Close()
+		return nil, fmt.Errorf("failed to read %s: %w", entry, err)
 	}
+
+	if err := reader.Close(); err != nil {
+		return nil, fmt.Errorf("failed to close %s: %w", entry, err)
+	}
+
+	return parser(data)
 }

@@ -48,16 +48,6 @@ func (w *ZipWriter) WriteDataSet(ds DataSet) error {
 	return w.Write(w.Path(ds), data)
 }
 
-// WriteFile writes the data from the given ZipFile to this package. It also
-// takes the path of the given ZipFile as storage location.
-func (w *ZipWriter) WriteFile(f *ZipFile) error {
-	data, err := f.Read()
-	if err != nil {
-		return err
-	}
-	return w.Write(f.Path(), data)
-}
-
 // Write writes the given data under the given path into the zip package.
 func (w *ZipWriter) Write(path string, data []byte) error {
 	if path == "" || len(data) == 0 {

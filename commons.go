@@ -38,6 +38,23 @@ func (ls LangString) Default() string {
 	return ls[0].Value
 }
 
+func (ls LangString) GetOrDefault(lang string) string {
+	s := ""
+	for _, item := range ls {
+		if item.Lang == lang {
+			return item.Value
+		}
+		if item.Lang == "en" {
+			s = item.Value
+		}
+	}
+	return s
+}
+
+func LangStringOf(value string, lang string) LangString {
+	return []LangStringItem{{Value: value, Lang: lang}}
+}
+
 // Ref is a data set reference to an ILCD data set.
 type Ref struct {
 	UUID    string     `xml:"refObjectId,attr"`
