@@ -1,6 +1,7 @@
 package ilcd
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 )
@@ -49,5 +50,9 @@ func TestWriteRead(t *testing.T) {
 
 	if err := r.Close(); err != nil {
 		t.Fatal("failed to close reader")
+	}
+
+	if err := os.RemoveAll(zipPath); err != nil {
+		t.Fatal("cannot delete closed zip:", err)
 	}
 }

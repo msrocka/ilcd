@@ -18,6 +18,7 @@ type Process struct {
 	MathModel *ProcessMathModel `xml:"processInformation>mathematicalRelations"`
 	Modelling *ProcessModelling `xml:"modellingAndValidation"`
 
+	DataGenerator *ProcessGenerator   `xml:"administrativeInformation>dataGenerator"`
 	DataEntry     *CommonDataEntry    `xml:"administrativeInformation>dataEntryBy"`
 	Publication   *ProcessPublication `xml:"administrativeInformation>publicationAndOwnership"`
 	Exchanges     []Exchange          `xml:"exchanges>exchange"`
@@ -192,4 +193,8 @@ type ProcessPublication struct {
 	LicenseType           string             `xml:"http://lca.jrc.it/ILCD/Common licenseType"`
 	AccessRestrictions    LangString         `xml:"http://lca.jrc.it/ILCD/Common accessRestrictions"`
 	EpdExt                *EpdPublicationExt `xml:"http://lca.jrc.it/ILCD/Common other"`
+}
+
+type ProcessGenerator struct {
+	Contacts []Ref `xml:"http://lca.jrc.it/ILCD/Common referenceToPersonOrEntityGeneratingTheDataSet"`
 }
