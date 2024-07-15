@@ -45,8 +45,8 @@ type EpdResultExt struct {
 
 type EpdValue struct {
 	Amount   *float64 `xml:",chardata"`
-	Module   string   `xml:"module,attr,omitempty"`
-	Scenario string   `xml:"scenario,attr,omitempty"`
+	Module   string   `xml:"http://www.iai.kit.edu/EPD/2013 module,attr,omitempty"`
+	Scenario string   `xml:"http://www.iai.kit.edu/EPD/2013 scenario,attr,omitempty"`
 }
 
 type EpdPublicationExt struct {

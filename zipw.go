@@ -41,7 +41,7 @@ func (w *ZipWriter) WriteDataSet(ds DataSet) error {
 	if ds == nil {
 		return nil
 	}
-	data, err := xml.Marshal(ds)
+	data, err := xml.MarshalIndent(ds, "", "  ")
 	if err != nil {
 		return err
 	}
